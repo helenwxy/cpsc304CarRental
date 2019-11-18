@@ -29,7 +29,7 @@ create table vehicle (
     location varchar(20) not null,
     city varchar(20) not null,
     foreign key (vtname) references vehicleType,
-    CHECK (status IN ('available', 'rented', 'maintenance'))
+    CHECK (status IN ('Available', 'Rented', 'Maintenance'))
 );
 
 create table reservation (
