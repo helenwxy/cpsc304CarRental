@@ -34,13 +34,14 @@ create table vehicle (
 
 create table reservation (
     confNo integer not null PRIMARY KEY,
-    vtname varchar(20) not null,
+    vlicense varchar(20) not null,
     dlicense varchar(20) not null,
     fromDate date not null,
     toDate date not null,
-    fromTime date not null,
-    toTime date not null,
-    foreign key (vtname) references vehicleType,
+--     fromTime date not null,
+--     toTime date not null,
+    rDate date not null,
+    foreign key (vlicense) references vehicleType,
     foreign key (dlicense) references customer
 );
 
@@ -50,8 +51,8 @@ create table rental (
     dlicense varchar(20) not null,
     fromDate date not null,
     toDate date not null,
-    fromTime date not null,
-    toTime date not null,
+--     fromTime date not null,
+--     toTime date not null,
     odometer integer not null,
     cardName varchar(20) not null,
     cardNo integer not null,

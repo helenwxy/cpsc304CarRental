@@ -2,7 +2,17 @@ insert into customer values ('GA123456', 'Bob Smith', '111 E. 11 St., Vancouver'
 insert into customer values ('GC222222', 'Candace Walters', '222 E. 22 St., Burnaby', 6049875432);
 insert into customer values ('BA112345', 'Kara Rops', '333 W. 33 Ave., Richmond', 7781234444);
 insert into customer values ('AC123145', 'Alex Mark', '444 E. 4 Ave., Vancouver', 6041111111);
-insert into customer values ('EE123111', 'John Smith', '414 E. 26 Ave., Vancouver', 6049898989);
+insert into customer values ('FF111111', 'John Smith', '414 E. 26 Ave., Vancouver', 6049898989);
+insert into customer values ('GG222222', 'Bob Dylan', '123 E. 26 Ave., Vancouver', 6041412313);
+insert into customer values ('HH333333', 'John Lennon', '111 E. 26 Ave., Vancouver', 6049142831);
+insert into customer values ('II444444', 'Paul McCartney', '555 E. 26 Ave., Vancouver', 7781913241);
+insert into customer values ('JJ555555', 'Ringo Starr', 'Science World, Vancouver', 6044437470);
+insert into customer values ('KK666666', 'George Harrison', 'Lionsgate Bridge, Vancouver', 6041114949);
+insert into customer values ('LL777777', 'Jesse Pinkman', 'Statue of Liberty, Vancouver', 6043312367);
+insert into customer values ('MM888888', 'Walter White', '11 Wall St., Vancouver', 6041919191);
+insert into customer values ('OO999999', 'Jim Halpert', '350 Fifth Ave., Vancouver', 6041818181);
+insert into customer values ('UU000000', 'Michael Scott', '1600 Pennsylvania Ave., Vancouver', 6041717171);
+insert into customer values ('VV123123', 'Dwight Schrute', '221B Baker St., Vancouver', 6041013829);
 
 insert into vehicleType values ('Economy', 'Auto lock', 300, 50, 10, 200, 40, 5, 2);
 insert into vehicleType values ('Compact', 'AC', 200, 30, 5, 200, 40, 5, 2);

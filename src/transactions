@@ -1,0 +1,144 @@
+/*
+ customer view vehicles with input: cartype, location, and time interval
+ */
+SELECT count(DISTINCT v.vlicense)
+FROM vehicle v, vehicleType vt
+WHERE v.vtname = vt.vtname AND
+      v.location = {user.location} AND
+      vtname = {user.carType} AND
+      vlicense NOT IN (
+        SELECT r.vlicense
+        FROM reservation r
+        WHERE (user.fromDate <= r.fromDate AND
+               user.toDate >= r.toDate) OR
+              (user.fromDate >= r. fromDate AND
+               user.toDate <= r.toDate) OR
+              (user.fromDate >= r. fromDate AND
+               user.toDate <= r.toDate)
+        UNION
+        SELECT rv.vlicense
+        FROM reservation rv
+        WHERE (user.fromDate <= rv.fromDate AND
+               user.toDate >= rv.toDate) OR
+              (user.fromDate >= rv. fromDate AND
+               user.toDate <= rv.toDate) OR
+              (user.fromDate >= rv. fromDate AND
+               user.toDate <= rv.toDate))
+
+/*
+ customer view vehicles with no input
+ */
+SELECT count(DISTINCT v.vlicense)
+FROM vehicle v
+SORT BY v.location, v.vtname, v.make
+
+/*
+ Reserve a vehicle: autogenerate confno first
+ Information needed to reserver: car type, location, pickup/dropoff time
+ 1. get vehicle: use try/catch if no vehicle is available. Choose the
+ first available vehicle -- query same as above
+ 2. make reservation
+ */
+INSERT INTO reservation values (confno, user.vtname, retrieved vlicense,
+                                user.fromDate, user.toDate, getDate)
+
+/*
+Renting a vehicle:
+** added reservation date to reservation table
+**autogenerate rid first
+1. when reservation made and confNo provided
+2. when no reservation made
+3. display reservation info
+4. update vehicle status
+ */
+
+INSERT INTO rental
+SELECT rid, r.vlicense, r.dlicense, r.fromDate, r.toDate, r.fromTime,
+       r.toTime, v.odometer, cardName, cardNo, expDate, r.confno
+FROM reservation r, vehicle v
+WHERE user.confno = r.confno AND
+      v.vlicense = r.vlicense
+
+INSERT INTO rental
+SELECT rid, v.vlicense, dlicense, fromDate, toDate, fromTime,
+       toTime, v.odometer, cardName, cardNo, expDate, null
+FROM vehicle v
+WHERE ROWNUM = 1 AND
+      v.vtname = user.vtname AND
+      v.location = currBranch AND
+      status = "available" AND
+      v.vlicense NOT IN (
+        SELECT r.vlicense
+        FROM reservation r
+        WHERE (user.fromDate < r.fromDate AND
+               user.toDate > r.toDate) OR
+            (user.fromDate > r. fromDate AND
+             user.toDate < r.toDate) OR
+            (user.fromDate > r. fromDate AND
+             user.toDate < r.toDate)
+        UNION
+        SELECT rv.vlicense
+        FROM reservation rv
+        WHERE (user.fromDate <= rv.fromDate AND
+               user.toDate >= rv.toDate) OR
+              (user.fromDate >= rv. fromDate AND
+               user.toDate <= rv.toDate) OR
+              (user.fromDate >= rv. fromDate AND
+               user.toDate <= rv.toDate))
+
+SELECT r.confno, r.rDate, v.vtname, v.location, r.toDate - r.toTime, r.odometer
+FROM reservation r, rental rt, vehicle v
+WHERE r.confno = rt.confno AND
+      r.dlicense = v.dlicense
+      rt.rid = (SELECT max(rid)
+                FROM rental)
+
+UPDATE vehicle
+SET status = "rented"
+WHERE vlicense = vlicense from record
+
+/*
+ return vehicle
+ check if rental status is "rented" -- try/catch
+ */
+
+INSERT INTO return
+SELECT r.date = sysdate, r.date, user.odometer, user.fullTank,
+       FLOOR(r.toDate - r.fromDate)*vt.wrate +
+       MOD((r.toDate - r.fromDate)*24, 24)*vt.hrate
+FROM rental r, vehicle v, vehicleType vt
+WHERE v.vlicense  = user.vlicense AND
+      v.status = "rented" AND
+      v.vtname = vt.vtname
+      r.date = (SELECT MAX(r1.fromDate)
+                FROM reservation r1
+                WHERE r1.vlicense = v.vlicense)
+
+/*
+Reports
+ */
+CREATE VIEW location as (
+CREATE VIEW category as (
+SELECT v.location as loc, v.vtname as name, count(distinct vlicense) AS c1
+FROM rental r, vehicle v
+WHERE r.fromDate BETWEEN DATE  to_date( 'date 00:00:00', 'dd-mon-yyyy hh24:mi:ss' ) AND
+  to_date( 'date 23:59:59', 'dd-mon-yyyy hh24:mi:ss' ) AND
+    v.vlicense = r.vlicense
+GROUP BY v.location, v.vtname)
+SELECT SUM(c1) as locSum
+FROM category c
+GROUP BY loc)
+SELECT SUM(locSum)
+FROM location
+
+
+
+
+
+
+
+
+
+
+
+
