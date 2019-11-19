@@ -29,7 +29,7 @@ create table vehicle (
     location varchar(20) not null,
     city varchar(20) not null,
     foreign key (vtname) references vehicleType,
-    CHECK (status IN ('available', 'rented', 'maintenance'))
+    CHECK (status IN ('Available', 'Rented', 'Maintenance'))
 );
 
 create table reservation (
@@ -38,8 +38,6 @@ create table reservation (
     dlicense varchar(20) not null,
     fromDate date not null,
     toDate date not null,
---     fromTime date not null,
---     toTime date not null,
     rDate date not null,
     foreign key (vlicense) references vehicleType,
     foreign key (dlicense) references customer
@@ -51,8 +49,6 @@ create table rental (
     dlicense varchar(20) not null,
     fromDate date not null,
     toDate date not null,
---     fromTime date not null,
---     toTime date not null,
     odometer integer not null,
     cardName varchar(20) not null,
     cardNo integer not null,
@@ -66,7 +62,6 @@ create table rental (
 create table return (
     rid integer not null PRIMARY KEY,
     rdate date not null,
-    rtime date not null,
     odometer integer not null,
     fulltank number not null,
     value float not null,
