@@ -54,7 +54,8 @@ insert into rental(4, 4, 'BA112345',
                    4004);
 insert into rental(5, 5, 'AC123145',
                    TO_DATE('25-MAY-2005', 'DD-MM-YYYY'), TO_DATE('29-JUL-2005', 'DD-MM-YYYY'), TO_DATE('05:00 AM', 'HH:MI AM'), TO_DATE('01:00 PM', 'HH:MI PM')
-                   25, 'Visa', 4111432143214321, TO_DATE('05-2020', 'MM-YYYY'),
+                   25,
+                   'Visa', 4111432143214321, TO_DATE('05-2020', 'MM-YYYY'),
                    4005);
 insert into rental(6, 6, 'EE123111',
                    TO_DATE('16-NOV-2003', 'DD-MM-YYYY'), TO_DATE('06-JAN-2004', 'DD-MM-YYYY'), TO_DATE('06:06 AM', 'HH:MI AM'), TO_DATE('06:16 PM', 'HH:MI PM')
@@ -69,7 +70,7 @@ insert into rental(7, 7, 'EE123111',
 insert into rental(8, 8, 'EE123111',
                    TO_DATE('08-AUG-2008', 'DD-MM-YYYY'), TO_DATE('09-SEP-2009', 'DD-MM-YYYY'), TO_DATE('08:48 AM', 'HH:MI AM'), TO_DATE('09:39 PM', 'HH:MI PM')
                    40,
-                   'Amex' 3222123443211234, TO_DATE('08-2020', 'MM-YYYY'),
+                   'Amex', 3222123443211234, TO_DATE('08-2020', 'MM-YYYY'),
                    3008);
 insert into rental(9, 9, 'EE123111',
                    TO_DATE('09-SEP-2009', 'DD-MM-YYYY'), TO_DATE('09-SEP-2009', 'DD-MM-YYYY'), TO_DATE('09:40 PM', 'HH:MI PM'), TO_DATE('10:40 PM', 'HH:MI PM')
