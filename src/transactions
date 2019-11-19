@@ -9,20 +9,20 @@ WHERE v.location = {user.location} AND
         SELECT r.vlicense
         FROM reservation r
         WHERE (user.fromDate <= r.fromDate AND
-               user.toDate >= r.toDate) OR
+               user.toDate >= r.fromDate) OR
               (user.fromDate >= r. fromDate AND
                user.toDate <= r.toDate) OR
-              (user.fromDate >= r. fromDate AND
-               user.toDate <= r.toDate)
+              (user.fromDate <= r. toDate AND
+               user.toDate >= r.toDate)
         UNION
         SELECT rv.vlicense
         FROM rental rt
         WHERE (user.fromDate <= rt.fromDate AND
-               user.toDate >= rt.toDate) OR
-              (user.fromDate >= rt.fromDate AND
-               user.toDate <= rt.toDate) OR
-              (user.fromDate >= rt.fromDate AND
-               user.toDate <= rv.toDate))
+            user.toDate >= rt.fromDate) OR
+            (user.fromDate >= rt. fromDate AND
+            user.toDate <= rt.toDate) OR
+            (user.fromDate <= rt. toDate AND
+            user.toDate >= rt.toDate)
 
 /*
  customer view vehicles with no input
@@ -69,21 +69,21 @@ WHERE ROWNUM = 1 AND
       v.vlicense NOT IN (
         SELECT r.vlicense
         FROM reservation r
-        WHERE (user.fromDate < r.fromDate AND
-               user.toDate > r.toDate) OR
-            (user.fromDate > r. fromDate AND
-             user.toDate < r.toDate) OR
-            (user.fromDate > r. fromDate AND
-             user.toDate < r.toDate)
+        WHERE (user.fromDate <= r.fromDate AND
+            user.toDate >= r.fromDate) OR
+            (user.fromDate >= r. fromDate AND
+            user.toDate <= r.toDate) OR
+            (user.fromDate <= r. toDate AND
+            user.toDate >= r.toDate)
         UNION
         SELECT rv.vlicense
         FROM rental rt
         WHERE (user.fromDate <= rt.fromDate AND
-               user.toDate >= rt.toDate) OR
-            (user.fromDate >= rt.fromDate AND
-             user.toDate <= rt.toDate) OR
-            (user.fromDate >= rt.fromDate AND
-             user.toDate <= rv.toDate))
+            user.toDate >= rt.fromDate) OR
+            (user.fromDate >= rt. fromDate AND
+            user.toDate <= rt.toDate) OR
+            (user.fromDate <= rt. toDate AND
+            user.toDate >= rt.toDate)
 
 SELECT r.confno, r.rDate, v.vtname, v.location, r.toDate - r.toTime, r.odometer
 FROM reservation r, rental rt, vehicle v
@@ -99,8 +99,9 @@ WHERE vlicense = vlicense from record
 /*
  return vehicle
  check if rental status is "rented" -- try/catch
+ if mod doesn't work, try:
+ https://www.akadia.com/services/ora_date_time.html
  */
-
 INSERT INTO return
 SELECT r.date = sysdate, r.date, user.odometer, user.fullTank,
        FLOOR(r.toDate - r.fromDate)*vt.wrate +
