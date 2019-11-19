@@ -19,7 +19,7 @@ create table vehicleType (
 
 create table vehicle (
     vlicense varchar(20) not null PRIMARY KEY,
-    vid integer not null,
+    vid integer not null PRIMARY KEY,
     make varchar(20) not null,
     model varchar(20) not null,
     year integer not null,
