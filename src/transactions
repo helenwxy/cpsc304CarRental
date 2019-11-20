@@ -65,7 +65,7 @@ FROM vehicle v
 WHERE ROWNUM = 1 AND
       v.vtname = user.vtname AND
       v.location = currBranch AND
-      status = "available" AND
+      v.status = "available" AND
       v.vlicense NOT IN (
         SELECT r.vlicense
         FROM reservation r

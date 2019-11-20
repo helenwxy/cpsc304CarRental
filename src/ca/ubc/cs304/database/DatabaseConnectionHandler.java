@@ -1,14 +1,10 @@
 package ca.ubc.cs304.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 import ca.ubc.cs304.model.BranchModel;
+import ca.ubc.cs304.model.VehicleModel;
 
 /**
  * This class handles all database related transactions
@@ -161,5 +157,10 @@ public class DatabaseConnectionHandler {
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
+	}
+
+	public ArrayList<VehicleModel> getVehicleInfo(String vtname, String location) {
+		ArrayList<VehicleModel> result = new ArrayList<VehicleModel>();
+		return result;
 	}
 }

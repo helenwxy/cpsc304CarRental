@@ -2,28 +2,27 @@
  customer view vehicles with input: cartype, location, and time interval
  */
 SELECT count(DISTINCT v.vlicense)
-FROM vehicle v, vehicleType vt
-WHERE v.vtname = vt.vtname AND
-      v.location = {user.location} AND
+FROM vehicle v
+WHERE v.location = {user.location} AND
       vtname = {user.carType} AND
       vlicense NOT IN (
         SELECT r.vlicense
         FROM reservation r
         WHERE (user.fromDate <= r.fromDate AND
-               user.toDate >= r.toDate) OR
+               user.toDate >= r.fromDate) OR
               (user.fromDate >= r. fromDate AND
                user.toDate <= r.toDate) OR
-              (user.fromDate >= r. fromDate AND
-               user.toDate <= r.toDate)
+              (user.fromDate <= r. toDate AND
+               user.toDate >= r.toDate)
         UNION
         SELECT rv.vlicense
-        FROM reservation rv
-        WHERE (user.fromDate <= rv.fromDate AND
-               user.toDate >= rv.toDate) OR
-              (user.fromDate >= rv. fromDate AND
-               user.toDate <= rv.toDate) OR
-              (user.fromDate >= rv. fromDate AND
-               user.toDate <= rv.toDate))
+        FROM rental rt
+        WHERE (user.fromDate <= rt.fromDate AND
+            user.toDate >= rt.fromDate) OR
+            (user.fromDate >= rt. fromDate AND
+            user.toDate <= rt.toDate) OR
+            (user.fromDate <= rt. toDate AND
+            user.toDate >= rt.toDate)
 
 /*
  customer view vehicles with no input
@@ -66,53 +65,64 @@ FROM vehicle v
 WHERE ROWNUM = 1 AND
       v.vtname = user.vtname AND
       v.location = currBranch AND
-      status = "available" AND
+      v.status = "available" AND
       v.vlicense NOT IN (
         SELECT r.vlicense
         FROM reservation r
-        WHERE (user.fromDate < r.fromDate AND
-               user.toDate > r.toDate) OR
-            (user.fromDate > r. fromDate AND
-             user.toDate < r.toDate) OR
-            (user.fromDate > r. fromDate AND
-             user.toDate < r.toDate)
+        WHERE (user.fromDate <= r.fromDate AND
+            user.toDate >= r.fromDate) OR
+            (user.fromDate >= r. fromDate AND
+            user.toDate <= r.toDate) OR
+            (user.fromDate <= r. toDate AND
+            user.toDate >= r.toDate)
         UNION
         SELECT rv.vlicense
-        FROM reservation rv
-        WHERE (user.fromDate <= rv.fromDate AND
-               user.toDate >= rv.toDate) OR
-              (user.fromDate >= rv. fromDate AND
-               user.toDate <= rv.toDate) OR
-              (user.fromDate >= rv. fromDate AND
-               user.toDate <= rv.toDate))
+        FROM rental rt
+        WHERE (user.fromDate <= rt.fromDate AND
+            user.toDate >= rt.fromDate) OR
+            (user.fromDate >= rt. fromDate AND
+            user.toDate <= rt.toDate) OR
+            (user.fromDate <= rt. toDate AND
+            user.toDate >= rt.toDate)
 
 SELECT r.confno, r.rDate, v.vtname, v.location, r.toDate - r.toTime, r.odometer
 FROM reservation r, rental rt, vehicle v
 WHERE r.confno = rt.confno AND
-      r.dlicense = v.dlicense
+      r.dlicense = v.dlicense AND
       rt.rid = (SELECT max(rid)
                 FROM rental)
 
 UPDATE vehicle
-SET status = "rented"
+SET status = "Rented"
 WHERE vlicense = vlicense from record
 
 /*
  return vehicle
  check if rental status is "rented" -- try/catch
+ if mod doesn't work, try:
+ https://www.akadia.com/services/ora_date_time.html
+ change vehicle status
  */
-
 INSERT INTO return
-SELECT r.date = sysdate, r.date, user.odometer, user.fullTank,
-       FLOOR(r.toDate - r.fromDate)*vt.wrate +
-       MOD((r.toDate - r.fromDate)*24, 24)*vt.hrate
+SELECT r.rid, r.date = sysdate, user.odometer, user.fullTank,
+       FLOOR((r.toDate - r.fromDate)/7)*vt.wrate +
+       FLOOR(r.toDate - r.fromDate)*vt.drate +
+       MOD((r.toDate - r.fromDate)*24, 24)*vt.hrate +
+       FLOOR((r.toDate - r.fromDate)/7)*vt.wirate +
+       FLOOR(r.toDate - r.fromDate)*vt.dirate +
+       MOD((r.toDate - r.fromDate)*24, 24)*vt.hirate +
+       user.kilo*vt.krate
 FROM rental r, vehicle v, vehicleType vt
 WHERE v.vlicense  = user.vlicense AND
       v.status = "rented" AND
-      v.vtname = vt.vtname
+      v.vtname = vt.vtname AND
       r.date = (SELECT MAX(r1.fromDate)
                 FROM reservation r1
                 WHERE r1.vlicense = v.vlicense)
+
+UPDATE vehicle
+SET status = "Available"
+WHERE vlicense = vlicense from record
 
 /*
 Reports

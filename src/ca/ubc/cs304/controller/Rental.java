@@ -3,14 +3,19 @@ package ca.ubc.cs304.controller;
 import ca.ubc.cs304.database.DatabaseConnectionHandler;
 import ca.ubc.cs304.delegates.LoginWindowDelegate;
 import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
+import ca.ubc.cs304.delegates.RentalTransactionDelegate;
 import ca.ubc.cs304.model.BranchModel;
+import ca.ubc.cs304.model.VehicleModel;
 import ca.ubc.cs304.ui.LoginWindow;
-import ca.ubc.cs304.ui.TerminalTransactions;
+import ca.ubc.cs304.ui.MainWindow;
+
+import javax.swing.*;
+import java.util.ArrayList;
 
 /**
  * This is the main controller class that will orchestrate everything.
  */
-public class Rental implements LoginWindowDelegate, TerminalTransactionsDelegate {
+public class Rental implements LoginWindowDelegate, TerminalTransactionsDelegate, RentalTransactionDelegate {
 	private DatabaseConnectionHandler dbHandler = null;
 	private LoginWindow loginWindow = null;
 
@@ -34,9 +39,10 @@ public class Rental implements LoginWindowDelegate, TerminalTransactionsDelegate
 		if (didConnect) {
 			// Once connected, remove login window and start text transaction flow
 			loginWindow.dispose();
-
-			TerminalTransactions transaction = new TerminalTransactions();
-			transaction.showMainMenu(this);
+			MainWindow mainWindow = new MainWindow();
+			mainWindow.showFrame(this);
+//			TerminalTransactions transaction = new TerminalTransactions();
+//			transaction.showMainMenu(this);
 		} else {
 			loginWindow.handleLoginFailed();
 
@@ -126,4 +132,8 @@ public class Rental implements LoginWindowDelegate, TerminalTransactionsDelegate
 		Rental rental = new Rental();
 		rental.start();
 	}
+
+//	public ArrayList<VehicleModel> showQualifiedVehicle(String vtname, String location) {
+//		return dbHandler.getVehicleInfo(vtname, location);
+//	}
 }
