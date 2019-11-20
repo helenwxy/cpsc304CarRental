@@ -2,7 +2,7 @@ create table customer (
     dlicense varchar(20) not null PRIMARY KEY,
     name varchar(20) not null,
     address varchar(20) not null,
-    phone integer
+    phone integer not null
 );
 
 create table vehicleType (

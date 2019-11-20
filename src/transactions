@@ -88,12 +88,12 @@ WHERE ROWNUM = 1 AND
 SELECT r.confno, r.rDate, v.vtname, v.location, r.toDate - r.toTime, r.odometer
 FROM reservation r, rental rt, vehicle v
 WHERE r.confno = rt.confno AND
-      r.dlicense = v.dlicense
+      r.dlicense = v.dlicense AND
       rt.rid = (SELECT max(rid)
                 FROM rental)
 
 UPDATE vehicle
-SET status = "rented"
+SET status = "Rented"
 WHERE vlicense = vlicense from record
 
 /*
@@ -101,18 +101,28 @@ WHERE vlicense = vlicense from record
  check if rental status is "rented" -- try/catch
  if mod doesn't work, try:
  https://www.akadia.com/services/ora_date_time.html
+ change vehicle status
  */
 INSERT INTO return
-SELECT r.date = sysdate, r.date, user.odometer, user.fullTank,
-       FLOOR(r.toDate - r.fromDate)*vt.wrate +
-       MOD((r.toDate - r.fromDate)*24, 24)*vt.hrate
+SELECT r.rid, r.date = sysdate, user.odometer, user.fullTank,
+       FLOOR((r.toDate - r.fromDate)/7)*vt.wrate +
+       FLOOR(r.toDate - r.fromDate)*vt.drate +
+       MOD((r.toDate - r.fromDate)*24, 24)*vt.hrate +
+       FLOOR((r.toDate - r.fromDate)/7)*vt.wirate +
+       FLOOR(r.toDate - r.fromDate)*vt.dirate +
+       MOD((r.toDate - r.fromDate)*24, 24)*vt.hirate +
+       user.kilo*vt.krate
 FROM rental r, vehicle v, vehicleType vt
 WHERE v.vlicense  = user.vlicense AND
       v.status = "rented" AND
-      v.vtname = vt.vtname
+      v.vtname = vt.vtname AND
       r.date = (SELECT MAX(r1.fromDate)
                 FROM reservation r1
                 WHERE r1.vlicense = v.vlicense)
+
+UPDATE vehicle
+SET status = "Available"
+WHERE vlicense = vlicense from record
 
 /*
 Reports
