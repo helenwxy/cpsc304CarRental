@@ -1,7 +1,7 @@
 create table customer (
     dlicense varchar(20) not null PRIMARY KEY,
     name varchar(20) not null,
-    address varchar(20) not null,
+    address varchar(40) not null,
     phone integer not null
 );
 
@@ -18,8 +18,8 @@ create table vehicleType (
 );
 
 create table vehicle (
-    vlicense varchar(20) not null PRIMARY KEY,
     vid integer not null,
+    vlicense varchar(20) not null PRIMARY KEY,
     make varchar(20) not null,
     model varchar(20) not null,
     year integer not null,
@@ -39,13 +39,13 @@ create table reservation (
     fromDate date not null,
     toDate date not null,
     rDate date not null,
-    foreign key (vlicense) references vehicleType,
+    foreign key (vlicense) references vehicle,
     foreign key (dlicense) references customer
 );
 
 create table rental (
     rid integer not null PRIMARY KEY,
-    vlicense integer not null,
+    vlicense varchar(20) not null,
     dlicense varchar(20) not null,
     fromDate date not null,
     toDate date not null,

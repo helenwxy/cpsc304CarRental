@@ -10,12 +10,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ViewVehicleWindow extends JFrame implements ActionListener {
-    String[] vtypeString = {"", "Economy", "Compact", "Mid-sized", "Standard", "Full-size",
+    String[] vtypeString = {"", "Economy", "Compact", "Mid-size", "Standard", "Full-size",
     "SUV", "Truck"};
     private static final int TEXT_FIELD_WIDTH = 10;
     private RentalTransactionDelegate delegate;
     JPanel panel = new JPanel();
-    private JTextField vtnameField;
     private JTextField locationField;
     private JTextField fromdateField;
     private JTextField todateField;
@@ -39,7 +38,6 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
         JLabel todateLabel = new JLabel("Enter return date (yyyy-mm-dd): ");
         JLabel totimeLabel = new JLabel("Enter return time (hh:mm in 24 hour): ");
 
-        vtnameField = new JTextField(TEXT_FIELD_WIDTH);
         locationField = new JTextField(TEXT_FIELD_WIDTH);
         fromdateField = new JTextField(TEXT_FIELD_WIDTH);
         fromtimeField = new JTextField(TEXT_FIELD_WIDTH);
@@ -148,8 +146,8 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
 //            ArrayList<VehicleModel> vehicle = delegate.showQualifiedVehicle((String)vtname.getSelectedItem(),locationField.getText());
-//            this.dispose();
-//            new ViewVehicleWindow().showFrame(delegate);
+            this.dispose();
+            new DisplayVehicleWindow((String)vtname.getSelectedItem(),locationField.getText()).showFrame(delegate);
         } else if (e.getSource() == back) {
             this.dispose();
             new CustomerWindow().showFrame(delegate);
