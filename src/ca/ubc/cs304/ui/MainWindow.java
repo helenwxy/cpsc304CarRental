@@ -53,6 +53,9 @@ public class MainWindow extends JFrame implements ActionListener {
         if (e.getSource() == b1) {
             this.dispose();
             new CustomerWindow().showFrame(delegate);
+        } else if (e.getSource() == b2) {
+            this.dispose();
+            new ReserveVehicleWindow().showFrame(delegate);
         }
     }
 }
