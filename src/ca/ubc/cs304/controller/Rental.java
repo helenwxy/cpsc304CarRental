@@ -34,7 +34,7 @@ public class Rental implements LoginWindowDelegate, TerminalTransactionsDelegate
      * connects to Oracle database with supplied username and password
      */ 
 	public void login(String username, String password) {
-		boolean didConnect = dbHandler.login(username, password);
+		boolean didConnect = dbHandler.login("ora_mohjeehw", "a48383715");
 
 		if (didConnect) {
 			// Once connected, remove login window and start text transaction flow
