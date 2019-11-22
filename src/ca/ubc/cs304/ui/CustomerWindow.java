@@ -62,7 +62,7 @@ public class CustomerWindow extends JFrame implements ActionListener {
             new ViewVehicleWindow().showFrame(delegate);
         } else if (e.getSource() == b2) {
             this.dispose();
-            new ClerkWindow();
+            new ReserveVehicleWindow().showFrame(delegate);
         } else if (e.getSource() == back) {
             this.dispose();
             new MainWindow().showFrame(delegate);

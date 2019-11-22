@@ -1,0 +1,33 @@
+insert into customer values ('GA123456', 'Bob Smith', '111 E. 11 St., Vancouver', '6043121234');
+insert into customer values ('GC222222', 'Candace Walters', '222 E. 22 St., Burnaby', '6049875432');
+insert into customer values ('BA112345', 'Kara Rops', '333 W. 33 Ave., Richmond', '7781234444');
+insert into customer values ('AC123145', 'Alex Mark', '444 E. 4 Ave., Vancouver', '6041111111');
+insert into customer values ('FF111111', 'John Smith', '414 E. 26 Ave., Vancouver', '6049898989');
+insert into customer values ('GG222222', 'Bob Dylan', '123 E. 26 Ave., Vancouver', '6041412313');
+insert into customer values ('HH333333', 'John Lennon', '111 E. 26 Ave., Vancouver', '6049142831');
+insert into customer values ('II444444', 'Paul McCartney', '555 E. 26 Ave., Vancouver', '7781913241');
+insert into customer values ('JJ555555', 'Ringo Starr', 'Science World, Vancouver', '6044437470');
+insert into customer values ('KK666666', 'George Harrison', 'Lionsgate Bridge, Vancouver', '6041114949');
+insert into customer values ('LL777777', 'Jesse Pinkman', 'Statue of Liberty, Vancouver', '6043312367');
+insert into customer values ('MM888888', 'Walter White', '11 Wall St., Vancouver', '6041919191');
+insert into customer values ('OO999999', 'Jim Halpert', '350 Fifth Ave., Vancouver', '6041818181');
+insert into customer values ('UU000000', 'Michael Scott', '1600 Pennsylvania Ave., Vancouver', '6041717171');
+insert into customer values ('VV123123', 'Dwight Schrute', '221B Baker St., Vancouver', '6041013829');
+
+insert into vehicleType values ('Economy', 'Auto lock', 300, 50, 10, 200, 40, 5, 2);
+insert into vehicleType values ('Compact', 'AC', 200, 30, 5, 200, 40, 5, 2);
+insert into vehicleType values ('Mid-size', 'Heated seat', 350, 55, 12, 200, 40, 5, 2);
+insert into vehicleType values ('Standard', 'Heated seat', 400, 60, 15, 200, 40, 5, 2);
+insert into vehicleType values ('Full-size', 'Leather seat', 450, 65, 20, 300, 50, 10, 2.5);
+insert into vehicleType values ('SUV', 'Big trunk size', 500, 70, 25, 350, 60, 15, 3);
+insert into vehicleType values ('Truck', 'Cargo space', 550, 80, 30, 400, 70, 20, 3.5);
+
+insert into vehicle values (1, '111AAA', 'Honda', 'Civic', 2001, 11111, 'Rented', 'Compact', 'East Vancouver', 'Vancouver');
+insert into vehicle values (2, '222BBB', 'Toyota', 'Corolla', 2002, 22222, 'Available', 'Mid-size', 'Surrey', 'Surrey');
+insert into vehicle values (3, '333CCC', 'Hyundai', 'Elantra', 2003, 33333, 'Maintenance', 'Compact', 'Richmond', 'Richmond');
+insert into vehicle values (4, '444DDD', 'Mazda', 'Maxda3', 2004, 44444, 'Rented', 'Compact', 'Burnaby', 'Burnaby');
+insert into vehicle values (5, '555EEE', 'Mercedes-Benz', 'G-Class', 2005, 55555, 'Available', 'SUV', 'Coquitlam', 'Coquitlam');
+insert into vehicle values (6, '666FFF', 'Ford', 'Mondeo', 2006, 66666, 'Maintenance', 'Standard', 'West Vancouver', 'Vancouver');
+insert into vehicle values (7, '777GGG', 'Dodge', 'Charger', 2007, 77777, 'Rented', 'Full-size', 'Richmond', 'Richmond');
+insert into vehicle values (8, '888HHH', 'Jeep', 'Gladiator', 2008, 88888, 'Available', 'Truck', 'Coquitlam', 'Coquitlam');
+insert into vehicle values (9, '999III', 'Nissan', 'Rogue', 2009, 99999, 'Maintenance', 'SUV', 'Surrey', 'Surrey');

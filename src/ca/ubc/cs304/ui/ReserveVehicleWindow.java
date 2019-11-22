@@ -1,17 +1,16 @@
 package ca.ubc.cs304.ui;
 
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
-import ca.ubc.cs304.model.VehicleModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.sql.SQLException;
 
-public class ViewVehicleWindow extends JFrame implements ActionListener {
+public class ReserveVehicleWindow extends JFrame implements ActionListener {
     String[] vtypeString = {"", "Economy", "Compact", "Mid-size", "Standard", "Full-size",
-    "SUV", "Truck"};
+            "SUV", "Truck"};
     private static final int TEXT_FIELD_WIDTH = 10;
     private RentalTransactionDelegate delegate;
     JPanel panel = new JPanel();
@@ -20,17 +19,23 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
     private JTextField todateField;
     private JTextField fromtimeField;
     private JTextField totimeField;
+    private JTextField phoneField;
+    private JButton newCustomer;
     private JButton submit;
     private JButton back;
     private JComboBox vtname;
 
-    public ViewVehicleWindow() {
+    public ReserveVehicleWindow() {
         super("Car Rental");
     }
 
     public void showFrame(RentalTransactionDelegate delegate) {
         this.delegate = delegate;
 
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel newcustLabel = new JLabel("New customer? Sign up here!");
+        JLabel phoneLabel = new JLabel("Enter your phone number (no dash): ");
         JLabel vtnameLabel = new JLabel("Enter vehicle type: ");
         JLabel locationLabel = new JLabel("Enter your location: ");
         JLabel fromdateLabel = new JLabel("Enter pickup date (yyyy-mm-dd): ");
@@ -43,7 +48,9 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
         fromtimeField = new JTextField(TEXT_FIELD_WIDTH);
         todateField = new JTextField(TEXT_FIELD_WIDTH);
         totimeField = new JTextField(TEXT_FIELD_WIDTH);
+        phoneField = new JTextField(TEXT_FIELD_WIDTH);
 
+        newCustomer = new JButton("Sign up here :)");
         vtname = new JComboBox(vtypeString);
         submit = new JButton("submit");
         back = new JButton("back");
@@ -55,6 +62,16 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
         panel.setLayout(gb);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         vtname.setSelectedIndex(0);
+
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        c.insets = new Insets(10, 10, 5, 0);
+        gb.setConstraints(newcustLabel, c);
+        panel.add(newcustLabel);
+
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.insets = new Insets(10, 0, 5, 10);
+        gb.setConstraints(newCustomer, c);
+        panel.add(newCustomer);
 
         // vtname label & combobox
         c.gridwidth = GridBagConstraints.RELATIVE;
@@ -118,12 +135,24 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
         c.insets = new Insets(0, 0, 10, 10);
         gb.setConstraints(totimeField, c);
         panel.add(totimeField);
+
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        c.insets = new Insets(0, 10, 10, 0);
+        gb.setConstraints(phoneLabel, c);
+        panel.add(phoneLabel);
+
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.insets = new Insets(0, 0, 10, 10);
+        gb.setConstraints(phoneField, c);
+        panel.add(phoneField);
+
         // place the buttons button
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5, 10, 10, 10);
         c.anchor = GridBagConstraints.CENTER;
         gb.setConstraints(submit, c);
         panel.add(submit);
+
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5, 10, 10, 10);
         c.anchor = GridBagConstraints.CENTER;
@@ -132,6 +161,7 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
 //
 //        // register login button with action event handler
 //        loginButton.addActionListener(this);
+        newCustomer.addActionListener(this);
         submit.addActionListener(this);
         back.addActionListener(this);
         this.pack();
@@ -142,17 +172,57 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
 
     }
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
+            String phone = phoneField.getText();
+            String vtype = (String)vtname.getSelectedItem();
+            String location = locationField.getText();
+            String fdate = fromdateField.getText();
+            String ftime = fromtimeField.getText();
+            String tdate = todateField.getText();
+            String ttime = totimeField.getText();
 //            ArrayList<VehicleModel> vehicle = delegate.showQualifiedVehicle((String)vtname.getSelectedItem(),locationField.getText());
-            this.dispose();
-            new DisplayVehicleWindow((String)vtname.getSelectedItem(),locationField.getText()).showFrame(delegate);
+            if (phone.equals("") || vtype.equals("") || location.equals("") || fdate.equals("") || tdate.equals("") ||
+            ftime.equals("") || ttime.equals("")) {
+                PopupBox.infoBox("One or more field is missing. Please fill in each box", "Error");
+            }  else {
+                try {
+                    int confno = delegate.makeReservation(phone, vtype, location, fdate, ftime, tdate, ttime);
+                    if (confno < 0) {
+                        PopupBox.infoBox("Sorry, no vehicle found. Please try another vehicle type or location", "Error");
+                    } else if (confno == 0) {
+                        PopupBox.infoBox("Sorry, your information is not found. Please register if you're" +
+                                "a new customer.", "Error");
+                    } else {
+                        PopupBox.infoBox("Reservation successful!\n" +
+                                "Conformation no: " + confno + "\nVehicle type: " + vtype +
+                                "\nPick up location: " + location + "\nPick up time: " + fdate + " " + ftime +
+                                "\nDrop off time: " + tdate + " " + ttime, "Congratulations!");
+                    }
+                } catch (SQLException err) {
+                    PopupBox.infoBox("Sorry, reservation unsuccessful: please fill in information according to format stated", "Error");
+                } catch (IllegalArgumentException error) {
+                    PopupBox.infoBox("Please enter the date and time as according to the formats stated", "Error");
+                }
+            }
         } else if (e.getSource() == back) {
             this.dispose();
             new CustomerWindow().showFrame(delegate);
+        } else if (e.getSource() == newCustomer) {
+            this.dispose();
+            new RegisterCustomerWindow().showFrame(delegate);
         }
 
     }
 }
 
+class PopupBox
+{
+
+    public static void infoBox(String infoMessage, String titleBar)
+    {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+    }
+}

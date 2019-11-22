@@ -22,15 +22,15 @@ insert into vehicleType values ('Full-size', 'Leather seat', 450, 65, 20, 300, 5
 insert into vehicleType values ('SUV', 'Big trunk size', 500, 70, 25, 350, 60, 15, 3);
 insert into vehicleType values ('Truck', 'Cargo space', 550, 80, 30, 400, 70, 20, 3.5);
 
-insert into vehicle (1, '111AAA', 'Honda', 'Civic', 2001, 11111, 'Rented', 'Compact', '101 E. 11 St., Vancouver', 'Vancouver');
-insert into vehicle (2, '222BBB', 'Toyota', 'Corolla', 2002, 22222, 'Available', 'Mid-size', '202 W. 22 St., Surrey', 'Surrey');
-insert into vehicle (3, '333CCC', 'Hyundai', 'Elantra', 2003, 33333, 'Maintenance', 'Compact', '303 E. 33 St., Richmond', 'Richmond');
-insert into vehicle (4, '444DDD', 'Mazda', 'Maxda3', 2004, 44444, 'Rented', 'Compact', '404 W. 44 St., Burnaby', 'Burnaby');
-insert into vehicle (5, '555EEE', 'Mercedes-Benz', 'G-Class', 2005, 55555, 'Available', 'SUV', '505 E. 55 St., Coquitlam', 'Coquitlam');
-insert into vehicle (6, '666FFF', 'Ford', 'Mondeo', 2006, 66666, 'Maintenance', 'Standard', '606 W. 66 St., Vancouver', 'Vancouver');
-insert into vehicle (7, '777GGG', 'Dodge', 'Charger', 2007, 77777, 'Rented', 'Fill-size', '707 E. 77 St., Richmond', 'Richmond');
-insert into vehicle (8, '888HHH', 'Jeep', 'Gladiator', 2008, 88888, 'Available', 'Truck', '808 W. 88 St., Coquitlam', 'Coquitlam');
-insert into vehicle (9, '999III', 'Nissan', 'Rogue', 2009, 99999, 'Maintenance', 'SUV', '909 E. 99 St., Surrey', 'Surrey');
+insert into vehicle values (1, '111AAA', 'Honda', 'Civic', 2001, 11111, 'Rented', 'Compact', '101 E. 11 St., Vancouver', 'Vancouver');
+insert into vehicle values (2, '222BBB', 'Toyota', 'Corolla', 2002, 22222, 'Available', 'Mid-size', '202 W. 22 St., Surrey', 'Surrey');
+insert into vehicle values (3, '333CCC', 'Hyundai', 'Elantra', 2003, 33333, 'Maintenance', 'Compact', '303 E. 33 St., Richmond', 'Richmond');
+insert into vehicle values (4, '444DDD', 'Mazda', 'Maxda3', 2004, 44444, 'Rented', 'Compact', '404 W. 44 St., Burnaby', 'Burnaby');
+insert into vehicle values (5, '555EEE', 'Mercedes-Benz', 'G-Class', 2005, 55555, 'Available', 'SUV', '505 E. 55 St., Coquitlam', 'Coquitlam');
+insert into vehicle values (6, '666FFF', 'Ford', 'Mondeo', 2006, 66666, 'Maintenance', 'Standard', '606 W. 66 St., Vancouver', 'Vancouver');
+insert into vehicle values (7, '777GGG', 'Dodge', 'Charger', 2007, 77777, 'Rented', 'Fill-size', '707 E. 77 St., Richmond', 'Richmond');
+insert into vehicle values (8, '888HHH', 'Jeep', 'Gladiator', 2008, 88888, 'Available', 'Truck', '808 W. 88 St., Coquitlam', 'Coquitlam');
+insert into vehicle values (9, '999III', 'Nissan', 'Rogue', 2009, 99999, 'Maintenance', 'SUV', '909 E. 99 St., Surrey', 'Surrey');
 
 insert into reservation (1, 'Economy', 'GA123456', TO_DATE('01-JAN-2001 08:20:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS') );
 insert into reservation (2, 'Compact', 'GA123456', TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS') );
