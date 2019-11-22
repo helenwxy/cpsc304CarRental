@@ -75,7 +75,7 @@ public class ClerkWindow extends JFrame implements ActionListener {
 //            new ReturnVehicleWindow().showFrame(delegate);
         } else if (e.getSource() == b3) {
             this.dispose();
-            // ken put your code here
+            new ReportWindow().showFrame(delegate);// ken put your code here
         } else if (e.getSource() == back) {
             this.dispose();
             new MainWindow().showFrame(delegate);
