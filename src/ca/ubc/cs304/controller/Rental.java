@@ -10,6 +10,8 @@ import ca.ubc.cs304.ui.LoginWindow;
 import ca.ubc.cs304.ui.MainWindow;
 
 import javax.swing.*;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -136,6 +138,11 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 	@Override
 	public ArrayList<VehicleModel> showQualifiedVehicle(String vtname, String location) {
 		return dbHandler.getVehicleInfo(vtname, location);
+	}
+
+	@Override
+	public int makeReservation(String phoneno, String vtname, String location, String fromdate, String fromtime, String todate, String totime) throws SQLException {
+		return dbHandler.insertReservation(phoneno, vtname, location, fromdate, fromtime, todate, totime);
 	}
 
 }

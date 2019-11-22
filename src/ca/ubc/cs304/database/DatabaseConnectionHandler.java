@@ -3,13 +3,13 @@ package ca.ubc.cs304.database;
 import java.sql.*;
 import java.util.ArrayList;
 
-import ca.ubc.cs304.model.BranchModel;
 import ca.ubc.cs304.model.VehicleModel;
 
 /**
  * This class handles all database related transactions
  */
 public class DatabaseConnectionHandler {
+	private int confno = 17;
 	private static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1522:stu";
 	private static final String EXCEPTION_TAG = "[EXCEPTION]";
 	private static final String WARNING_TAG = "[WARNING]";
@@ -167,29 +167,28 @@ public class DatabaseConnectionHandler {
 			if (vtname.equals("") && location.equals("")) {
 				ps = connection.prepareStatement(
 						"SELECT vtname, make, model, year, location, city FROM vehicle " +
-								"WHERE location = 'Richmond' AND status = 'Available' ORDER BY vtname, make");
+								"WHERE location = 'Richmond' ORDER BY vtname, make");
 				rs = ps.executeQuery();
 			} else if (vtname.equals("")) {
 				ps = connection.prepareStatement(
 						"SELECT vtname, make, model, year, location, city FROM vehicle " +
-								"WHERE location = ? AND status = 'Available' ORDER BY vtname, make");
+								"WHERE location = ? ORDER BY vtname, make");
 				ps.setString(1, location);
 				rs = ps.executeQuery();
 			} else if (location.equals("")) {
 				ps = connection.prepareStatement(
 						"SELECT vtname, make, model, year, location, city FROM vehicle " +
-								"WHERE vtname = ? AND status = 'Available' ORDER BY location, make");
+								"WHERE vtname = ? ORDER BY location, make");
 				ps.setString(1, vtname);
 				rs = ps.executeQuery();
 			} else {
 				ps = connection.prepareStatement(
 						"SELECT vtname, make, model, year, location, city FROM vehicle " +
-								"WHERE vtname = ? AND location = ? AND status = 'Available' ORDER BY make, model");
+								"WHERE vtname = ? AND location = ? ORDER BY make, model");
 				ps.setString(1, vtname);
 				ps.setString(2, location);
 				rs = ps.executeQuery();
 			}
-
 
 			while(rs.next()) {
 				VehicleModel model = new VehicleModel(rs.getString("vtname"),
@@ -206,5 +205,50 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
 		return result;
+	}
+
+	public int insertReservation(String phoneno, String vtname, String location, String fromdate, String fromtime, String todate, String totime) throws SQLException {
+		confno ++;
+		try {
+			PreparedStatement ps = connection.prepareStatement("" +
+					"SELECT COUNT(dlicense) FROM customer WHERE phone = ?");
+			ps.setString(1,phoneno);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int numCustomer = rs.getInt(1);
+			System.out.println("numCustomer: " + numCustomer);
+			if (numCustomer == 0) {
+				return 0;
+			}
+		} catch (SQLException e) {
+			//
+		}
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO reservation SELECT ?,?,c.dlicense,?,?,? FROM customer c WHERE c.phone = ? AND " +
+							"EXISTS(SELECT v.vlicense FROM vehicle v WHERE ? = v.vtname AND ? = v.location AND v.status = 'Available')");
+			ps.setInt(1, confno);
+			ps.setString(2, vtname);
+			ps.setTimestamp(3, java.sql.Timestamp.valueOf(fromdate + " " + fromtime + ":00"));
+//			ps.setDate(3, java.sql.Date.valueOf(fromdate));
+			ps.setTimestamp(4, java.sql.Timestamp.valueOf(todate + " " + totime + ":00"));
+//			ps.setDate(4, java.sql.Date.valueOf(todate));
+			ps.setDate(5, java.sql.Date.valueOf(java.time.LocalDate.now()));
+			ps.setString(6,phoneno);
+			ps.setString(7,vtname);
+			ps.setString(8,location);
+			int numRow = ps.executeUpdate();
+			System.out.println("num rows: " + numRow);
+			connection.commit();
+			if (numRow == 0) {
+				return -1;
+			} else {
+				return confno;
+			}
+		} catch (SQLException e) {
+			confno--;
+			rollbackConnection();
+			throw e;
+		}
 	}
 }
