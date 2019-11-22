@@ -9,20 +9,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ReportWindow extends JFrame implements ActionListener {
+  private RentalTransactionDelegate delegate;
   JButton b1 = new JButton("Daily Rentals for All Branches");
   JButton b2 = new JButton("Daily Rentals for Current Branch");
   JButton b3 = new JButton("Daily Returns for All Branches");
   JButton b4 = new JButton("Daily Returns for Current Branch");
-  JButton b5 = new JButton("back");
+  JButton backbutton = new JButton("back");
   JPanel panel = new JPanel();
   public ReportWindow() {
     super("Car Rental");
   }
 
   public void showFrame(RentalTransactionDelegate delegate) {
+    this.delegate = delegate;
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setSize(300,300);
-    JPanel panel = new JPanel();
     this.setContentPane(panel);
 
     GridBagLayout gb = new GridBagLayout();
@@ -63,14 +64,14 @@ public class ReportWindow extends JFrame implements ActionListener {
     c.gridwidth = GridBagConstraints.REMAINDER;
     c.insets = new Insets(5, 10, 10, 10);
     c.anchor = GridBagConstraints.CENTER;
-    gb.setConstraints(b5, c);
-    panel.add(b5);
+    gb.setConstraints(backbutton, c);
+    panel.add(backbutton);
 
     b1.addActionListener(this); // rent All
     b2.addActionListener(this); // rent one branch
     b3.addActionListener(this); // return All
     b4.addActionListener(this); // return one branch
-    b5.addActionListener(this); // back
+    backbutton.addActionListener(this); // back
     Dimension d = this.getToolkit().getScreenSize();
     Rectangle r = this.getBounds();
     this.setLocation( (d.width - r.width)/2, (d.height - r.height)/2 );
@@ -80,6 +81,9 @@ public class ReportWindow extends JFrame implements ActionListener {
   // todo:
   @Override
   public void actionPerformed(ActionEvent e) {
-
+    if (e.getSource() == backbutton) {
+      this.dispose();
+      new ClerkWindow().showFrame(delegate);
+    }
   }
 }
