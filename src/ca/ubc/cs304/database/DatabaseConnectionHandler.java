@@ -251,4 +251,27 @@ public class DatabaseConnectionHandler {
 			throw e;
 		}
 	}
+
+	public boolean insertNewCustomer(String dlicense, String name, String address, String phone) {
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+				"INSERT INTO customer values (?,?,?,?)");
+			ps.setString(1, dlicense);
+			ps.setString(2,name);
+			ps.setString(3,address);
+			ps.setString(4,phone);
+			int numrow = ps.executeUpdate();
+			System.out.println(numrow);
+			connection.commit();
+			return true;
+//			if (numrow == 1) {
+//				return true;
+//			} else {
+//				return false;
+//			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			return false;
+		}
+	}
 }

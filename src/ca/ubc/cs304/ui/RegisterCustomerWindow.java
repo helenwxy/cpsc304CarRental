@@ -37,12 +37,12 @@ public class RegisterCustomerWindow extends JFrame implements ActionListener {
         phone = new JTextField(TEXT_FIELD_WIDTH);
         submit = new JButton("submit");
         back = new JButton("back");
+        panel = new JPanel();
         this.setContentPane(panel);
 
         GridBagLayout gb = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
 
-        panel = new JPanel();
         panel.setLayout(gb);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -115,7 +115,11 @@ public class RegisterCustomerWindow extends JFrame implements ActionListener {
             new ReserveVehicleWindow().showFrame(delegate);
         } else if (e.getSource() == submit) {
             this.dispose();
-            PopupBox.infoBox("Registration successful", "Information");
+            if (!delegate.insertNewCustomer(dlicense.getText(), name.getText(), address.getText(), phone.getText())) {
+                PopupBox.infoBox("Your account already exists", "Information");
+            } else {
+                PopupBox.infoBox("Registration successful", "Information");
+            }
             new ReserveVehicleWindow().showFrame(delegate);
         }
     }

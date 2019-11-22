@@ -13,4 +13,6 @@ public interface RentalTransactionDelegate {
 
     int makeReservation(String phoneno, String vtname, String location, String fromdate, String fromtime,
                             String todate, String totime) throws SQLException;
+
+    boolean insertNewCustomer(String dlicense, String name, String address, String phone);
 }

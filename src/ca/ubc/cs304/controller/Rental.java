@@ -145,4 +145,9 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 		return dbHandler.insertReservation(phoneno, vtname, location, fromdate, fromtime, todate, totime);
 	}
 
+	@Override
+	public boolean insertNewCustomer(String dlicense, String name, String address, String phone) {
+		return dbHandler.insertNewCustomer(dlicense, name, address, phone);
+	}
+
 }
