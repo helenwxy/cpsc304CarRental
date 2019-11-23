@@ -5,6 +5,7 @@ import ca.ubc.cs304.delegates.LoginWindowDelegate;
 import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
 import ca.ubc.cs304.model.BranchModel;
+import ca.ubc.cs304.model.ReportModel;
 import ca.ubc.cs304.model.VehicleModel;
 import ca.ubc.cs304.ui.LoginWindow;
 import ca.ubc.cs304.ui.MainWindow;
@@ -156,7 +157,17 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
   }
 
   @Override
-  public ArrayList<VehicleModel> showRentalReport2(String date, String location) {
-    return dbHandler.getRentalReportInfo1(date, location);
+  public ArrayList<ReportModel> showRentalReport2(String date, String location) {
+    return dbHandler.getRentalReportInfo2(date, location);
   }
+
+  @Override
+  public ArrayList<ReportModel> showRentalReport3(String date, String location) {
+    return dbHandler.getRentalReportInfo3(date, location);
+  }
+
+//  @Override
+//  public ArrayList<ReportModel> showRentalReport4(String date, String location) {
+//    return dbHandler.getRentalReportInfo4(date, location);
+//  }
 }
