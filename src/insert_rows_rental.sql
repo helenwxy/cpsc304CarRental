@@ -80,12 +80,12 @@ insert into rental(7, 7, 'EE123111',
 insert into rental(8, 8, 'EE123111',
                    TO_DATE('08-AUG-2008 08:48 AM', 'DD-MM-YYYY HH:MI AM'), TO_DATE('09-SEP-2009 09:39 PM', 'DD-MM-YYYY HH:MI PM'),
                    40,
-                   'Amex', 3222123443211234, TO_DATE('08-2020', 'MM-YYYY'),
+                   'Visa', 3222123443211234, TO_DATE('08-2020', 'MM-YYYY'),
                    3008);
 insert into rental(9, 9, 'EE123111',
                    TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
                    45,
-                   'Amex', 3222234554322345, TO_DATE('09-2020', 'MM-YYYY'),
+                   'Visa', 3222234554322345, TO_DATE('09-2020', 'MM-YYYY'),
                    3009);
 
 insert into return(1,

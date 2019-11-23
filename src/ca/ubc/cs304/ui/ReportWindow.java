@@ -69,7 +69,7 @@ public class ReportWindow extends JFrame implements ActionListener {
       new RentalReportWindow().showFrame(delegate);
     } else if (e.getSource() == b2) { // return report
       this.dispose();
-      new RentalReportWindow().showFrame(delegate);
+      new ReportReturnWindow().showFrame(delegate);
     }
   }
 }

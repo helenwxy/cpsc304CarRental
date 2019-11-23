@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// todo: copied from view vehicle window. adjust for rental window
 public class RentalReportWindow extends JFrame implements ActionListener {
 //  String[] vtypeString = {"", "Economy", "Compact", "Mid-sized", "Standard", "Full-size",
 //    "SUV", "Truck"};

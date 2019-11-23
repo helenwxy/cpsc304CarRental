@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class DisplayReportRentalWindow extends JFrame implements ActionListener {
-  private JTable table4;
+  private JTable table1;
   private String date;
   private String location;
 //  private JButton numVehicle;
@@ -24,19 +24,17 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
   private JScrollPane sp;
 
   public DisplayReportRentalWindow(String date, String location) {
-    super("Rental Report for one branch");
+    super("DisplayReportRentalWindow");
     this.date = date;
     this.location = location;
   }
-
-  // todo: copied from DisplayVehicleWindow. adjust.
   public void showFrame(RentalTransactionDelegate delegate) {
     this.delegate = delegate;
-    ArrayList<VehicleModel> vlist = delegate.showRentalReport1(date, location);
+    ArrayList<VehicleModel> vlist = delegate.showReturnReport1(date, location);
     back = new JButton("Back");
-    countCategory = new JButton("Count Rents/category");
-    countBranch = new JButton("Count Rents/branch");
-    countCompany = new JButton("All Rents for the day");
+    countCategory = new JButton("Count Return/category");
+    countBranch = new JButton("Revenue and Counts/branch");
+    countCompany = new JButton("All Revenue&Returns for the day");
     if (vlist.isEmpty()) {
       this.setLayout(new BorderLayout());
       JPanel topPanel = new JPanel();
@@ -79,18 +77,18 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
           v.getVtname(), v.getMake(), v.getModel(), String.valueOf(v.getYear()), v.getLocation(), v.getCity()};
         array[i] = attr;
       }
-      table4 = new JTable(array, colNames);
-      for (int column = 0; column < table4.getColumnCount(); column++)
+      table1 = new JTable(array, colNames);
+      for (int column = 0; column < table1.getColumnCount(); column++)
       {
-        TableColumn tableColumn = table4.getColumnModel().getColumn(column);
+        TableColumn tableColumn = table1.getColumnModel().getColumn(column);
         int preferredWidth = tableColumn.getMinWidth();
         int maxWidth = tableColumn.getMaxWidth();
 
-        for (int row = 0; row < table4.getRowCount(); row++)
+        for (int row = 0; row < table1.getRowCount(); row++)
         {
-          TableCellRenderer cellRenderer = table4.getCellRenderer(row, column);
-          Component c = table4.prepareRenderer(cellRenderer, row, column);
-          int width = c.getPreferredSize().width + table4.getIntercellSpacing().width;
+          TableCellRenderer cellRenderer = table1.getCellRenderer(row, column);
+          Component c = table1.prepareRenderer(cellRenderer, row, column);
+          int width = c.getPreferredSize().width + table1.getIntercellSpacing().width;
           preferredWidth = Math.max(preferredWidth, width);
 
           //  We've exceeded the maximum width, no need to check other rows
@@ -105,7 +103,7 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
         tableColumn.setPreferredWidth( preferredWidth );
       }
 //            table.setBounds(30, 40, 200, 300);
-      sp = new JScrollPane(table4);
+      sp = new JScrollPane(table1);
       panel1.add(sp);
 
       this.add(panel1, BorderLayout.NORTH);
@@ -130,13 +128,13 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
     new ReportWindow().showFrame(delegate);
     } else if (e.getSource() == countCategory) {
       this.dispose();
-      new DisplayReportRentalCountCategoryWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReturnReportCountCategoryWindow(this.date,this.location).showFrame(delegate);
     } else if (e.getSource() == countBranch) {
       this.dispose();
-      new DisplayReportRentalCountBranchWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReturnReportRevenueBranchWindow(this.date,this.location).showFrame(delegate);
     } else if (e.getSource() == countCompany) {
       this.dispose();
-      new DisplayReportRentalCountCompanyWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReturnGrandTotalWindow(this.date,this.location).showFrame(delegate);
     }
   }
 }

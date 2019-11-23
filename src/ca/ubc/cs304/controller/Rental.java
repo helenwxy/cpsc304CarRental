@@ -6,6 +6,7 @@ import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
 import ca.ubc.cs304.model.BranchModel;
 import ca.ubc.cs304.model.ReportModel;
+import ca.ubc.cs304.model.ReportReturnModel;
 import ca.ubc.cs304.model.VehicleModel;
 import ca.ubc.cs304.ui.LoginWindow;
 import ca.ubc.cs304.ui.MainWindow;
@@ -173,25 +174,23 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 
   // The report contains information on all the vehicles returned during the day.
   // The entries are grouped by branch, and within each branch, the entries are grouped by vehicle category.
-//  @Override
-//  public ArrayList<VehicleModel> showReturnReport1(String date, String location) {
-//    return dbHandler.getReturnReportInfo1(date, location);
-//  }
-
-  /*
   @Override
-  public ArrayList<ReportModel> showReturnReport2(String date, String location) {
+  public ArrayList<VehicleModel> showReturnReport1(String date, String location) {
+    return dbHandler.getReturnReportInfo1(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportReturnModel> showReturnReport2(String date, String location) {
     return dbHandler.getReturnReportInfo2(date, location);
   }
 
   @Override
-  public ArrayList<ReportModel> showReturnReport3(String date, String location) {
+  public ArrayList<ReportReturnModel> showReturnReport3(String date, String location) {
     return dbHandler.getReturnReportInfo3(date, location);
   }
 
   @Override
-  public ArrayList<ReportModel> showReturnReport4(String date, String location) {
+  public ArrayList<ReportReturnModel> showReturnReport4(String date, String location) {
     return dbHandler.getReturnReportInfo4(date, location);
   }
-  */
 }

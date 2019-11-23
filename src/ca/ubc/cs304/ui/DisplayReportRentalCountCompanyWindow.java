@@ -27,7 +27,6 @@ public class DisplayReportRentalCountCompanyWindow extends JFrame implements Act
     this.location = location;
   }
 
-  // todo: copied from DisplayVehicleWindow. adjust.
   public void showFrame(RentalTransactionDelegate delegate) {
     this.delegate = delegate;
     ArrayList<ReportModel> vlist = delegate.showRentalReport4(date, location);
@@ -122,18 +121,6 @@ public class DisplayReportRentalCountCompanyWindow extends JFrame implements Act
 
   @Override
   public void actionPerformed(ActionEvent e) {
-//    if (e.getSource() == numVehicle) {
-//      this.getContentPane().removeAll();
-//      this.getContentPane().add(sp, BorderLayout.NORTH);
-//      this.getContentPane().add(back, BorderLayout.SOUTH);
-////            this.getContentPane().add(sp);
-//      this.revalidate();
-//      this.pack();
-//      this.repaint();
-//    } else if (e.getSource() == back) {
-//      this.dispose();
-//      new CustomerWindow().showFrame(delegate);
-//    }
     if (e.getSource() == back) {
       this.dispose();
       new DisplayReportRentalWindow(this.date, this.location).showFrame(delegate);

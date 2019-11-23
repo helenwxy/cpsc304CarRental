@@ -26,7 +26,6 @@ public class DisplayReportRentalCountBranchWindow extends JFrame implements Acti
     this.location = location;
   }
 
-  // todo: copied from DisplayVehicleWindow. adjust.
   public void showFrame(RentalTransactionDelegate delegate) {
     this.delegate = delegate;
     ArrayList<ReportModel> vlist = delegate.showRentalReport3(date, location);

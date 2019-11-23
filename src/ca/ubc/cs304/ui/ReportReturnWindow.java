@@ -7,22 +7,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// todo: copied from view vehicle window. adjust for return window
 public class ReportReturnWindow extends JFrame implements ActionListener {
-  String[] vtypeString = {"", "Economy", "Compact", "Mid-sized", "Standard", "Full-size",
-    "SUV", "Truck"};
+  //  String[] vtypeString = {"", "Economy", "Compact", "Mid-sized", "Standard", "Full-size",
+//    "SUV", "Truck"};
   private static final int TEXT_FIELD_WIDTH = 10;
   private RentalTransactionDelegate delegate;
   JPanel panel = new JPanel();
-  private JTextField vtnameField;
+  //  private JTextField vtnameField;
   private JTextField locationField;
-  private JTextField returndateField;
+  private JTextField rentaldateField;
   private JButton submit;
   private JButton back;
-  private JComboBox vtname;
+//  private JComboBox vtname;
 
   public ReportReturnWindow() {
-    super("Car Rental");
+    super("ReportReturnWindow");
   }
 
   public void showFrame(RentalTransactionDelegate delegate) {
@@ -30,13 +29,13 @@ public class ReportReturnWindow extends JFrame implements ActionListener {
 
     JLabel vtnameLabel = new JLabel("Enter vehicle type: ");
     JLabel locationLabel = new JLabel("Enter your branch location (leave empty to get all branches): ");
-    JLabel returndateLabel = new JLabel("Enter return date (yyyy-mm-dd): ");
+    JLabel rentaldateaLabel = new JLabel("Enter rental date (yyyy-mm-dd): ");
 
-    vtnameField = new JTextField(TEXT_FIELD_WIDTH);
+//    vtnameField = new JTextField(TEXT_FIELD_WIDTH);
     locationField = new JTextField(TEXT_FIELD_WIDTH);
-    returndateField = new JTextField(TEXT_FIELD_WIDTH);
+    rentaldateField = new JTextField(TEXT_FIELD_WIDTH);
 
-    vtname = new JComboBox(vtypeString);
+//    vtname = new JComboBox(vtypeString);
     submit = new JButton("submit");
     back = new JButton("back");
     this.setContentPane(panel);
@@ -46,18 +45,18 @@ public class ReportReturnWindow extends JFrame implements ActionListener {
 
     panel.setLayout(gb);
     panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    vtname.setSelectedIndex(0);
+//    vtname.setSelectedIndex(0);
 
     // vtname label & combobox
-    c.gridwidth = GridBagConstraints.RELATIVE;
-    c.insets = new Insets(10, 10, 5, 0);
-    gb.setConstraints(vtnameLabel, c);
-    panel.add(vtnameLabel);
+//    c.gridwidth = GridBagConstraints.RELATIVE;
+//    c.insets = new Insets(10, 10, 5, 0);
+//    gb.setConstraints(vtnameLabel, c);
+//    panel.add(vtnameLabel);
 
-    c.gridwidth = GridBagConstraints.REMAINDER;
-    c.insets = new Insets(10, 0, 5, 10);
-    gb.setConstraints(vtname, c);
-    panel.add(vtname);
+//    c.gridwidth = GridBagConstraints.REMAINDER;
+//    c.insets = new Insets(10, 0, 5, 10);
+//    gb.setConstraints(vtname, c);
+//    panel.add(vtname);
 
     // Location label & textbox
     c.gridwidth = GridBagConstraints.RELATIVE;
@@ -73,13 +72,13 @@ public class ReportReturnWindow extends JFrame implements ActionListener {
     // Time interval label & text
     c.gridwidth = GridBagConstraints.RELATIVE;
     c.insets = new Insets(0, 10, 10, 0);
-    gb.setConstraints(returndateLabel, c);
-    panel.add(returndateLabel);
+    gb.setConstraints(rentaldateaLabel, c);
+    panel.add(rentaldateaLabel);
 
     c.gridwidth = GridBagConstraints.REMAINDER;
     c.insets = new Insets(0, 0, 10, 10);
-    gb.setConstraints(returndateField, c);
-    panel.add(returndateField);
+    gb.setConstraints(rentaldateField, c);
+    panel.add(rentaldateField);
 
     // place the buttons button
     // submit button
@@ -111,8 +110,8 @@ public class ReportReturnWindow extends JFrame implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == submit) {
 //            ArrayList<VehicleModel> vehicle = delegate.showQualifiedVehicle((String)vtname.getSelectedItem(),locationField.getText());
-            this.dispose();
-//            new DisplayVehicleWindow((String)vtname.getSelectedItem(),locationField.getText()).showFrame(delegate);
+      this.dispose();
+      new DisplayReportRentalWindow((String)rentaldateField.getText(),locationField.getText()).showFrame(delegate);
     } else if (e.getSource() == back) {
       this.dispose();
       new ReportWindow().showFrame(delegate);
