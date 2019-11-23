@@ -32,5 +32,7 @@ public interface RentalTransactionDelegate {
 
   // rental report displays new rentals for the whole company
   // this will bre able to deal with one or all branches
-//  ArrayList<ReportModel> showRentalReport4(String date, String location);
+  ArrayList<ReportModel> showRentalReport4(String date, String location);
+
+
 }

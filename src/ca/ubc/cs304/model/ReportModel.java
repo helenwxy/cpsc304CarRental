@@ -7,6 +7,11 @@ public class ReportModel {
 //    private String model;
     private int counter;
 
+
+  public ReportModel(int counter) {
+    this.counter = counter;
+  }
+
   public ReportModel(String vtname, int counter) {
     this.vtname = vtname;
     this.counter = counter;

@@ -1,7 +1,7 @@
 package ca.ubc.cs304.ui;
 
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
-import ca.ubc.cs304.model.VehicleModel;
+import ca.ubc.cs304.model.ReportModel;
 
 import javax.swing.*;
 import javax.swing.table.TableCellRenderer;
@@ -11,19 +11,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class DisplayReportRentalWindow extends JFrame implements ActionListener {
+// https://piazza.com/class/jy5fkw4a7sbi?cid=724
+public class DisplayReportRentalCountCompanyWindow extends JFrame implements ActionListener {
   private JTable table4;
   private String date;
   private String location;
-//  private JButton numVehicle;
+  //  private JButton numVehicle;
   private RentalTransactionDelegate delegate;
   private JButton back;
-  private JButton countCategory;
-  private JButton countBranch;
-  private JButton countCompany;
   private JScrollPane sp;
 
-  public DisplayReportRentalWindow(String date, String location) {
+  public DisplayReportRentalCountCompanyWindow(String date, String location) {
     super("Rental Report for one branch");
     this.date = date;
     this.location = location;
@@ -32,26 +30,17 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
   // todo: copied from DisplayVehicleWindow. adjust.
   public void showFrame(RentalTransactionDelegate delegate) {
     this.delegate = delegate;
-    ArrayList<VehicleModel> vlist = delegate.showRentalReport1(date, location);
+    ArrayList<ReportModel> vlist = delegate.showRentalReport4(date, location);
     back = new JButton("Back");
-    countCategory = new JButton("Count Rents/category");
-    countBranch = new JButton("Count Rents/branch");
-    countCompany = new JButton("All Rents for the day");
     if (vlist.isEmpty()) {
       this.setLayout(new BorderLayout());
       JPanel topPanel = new JPanel();
       topPanel.add(new JLabel("No rentals for the day."));
       JPanel botPanel = new JPanel();
       botPanel.add(back);
-      botPanel.add(countCategory);
-      botPanel.add(countBranch);
-      botPanel.add(countCompany);
       this.add(topPanel, BorderLayout.NORTH);
       this.add(botPanel, BorderLayout.SOUTH);
       back.addActionListener(this);
-      countCategory.addActionListener(this);
-      countBranch.addActionListener(this);
-      countCompany.addActionListener(this);
       this.pack();
       Dimension d = this.getToolkit().getScreenSize();
       Rectangle r = this.getBounds();
@@ -59,24 +48,34 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
       this.setVisible(true);
     } else {
       this.setLayout(new BorderLayout());
-
       JPanel panel1 = new JPanel();
+//      numVehicle = new JButton(String.valueOf(vlist.size()));
       GridBagLayout gb = new GridBagLayout();
       GridBagConstraints cons = new GridBagConstraints();
       JLabel label = new JLabel("Number of Available Vehicles: (click to expand)");
+//      panel1.setLayout(gb);
+//      panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//
+//      cons.gridwidth = GridBagConstraints.RELATIVE;
+//      cons.insets = new Insets(10, 10, 5, 0);
+//      gb.setConstraints(label, cons);
+//      panel1.add(label);
+
+//      cons.gridwidth = GridBagConstraints.REMAINDER;
+//      cons.insets = new Insets(10, 0, 5, 10);
+//      gb.setConstraints(numVehicle, cons);
+//      panel1.add(numVehicle);
 
       JPanel panel2 = new JPanel();
       panel2.add(back);
-      panel2.add(countCategory);
-      panel2.add(countBranch);
-      panel2.add(countCompany);
 
-      String[] colNames = {"Rental Id", "Vehicle License", "Vehicle Type", "Make", "Model", "Year", "Location", "City"};
+      String[] colNames = {"Count"};
       String[][] array = new String[vlist.size()][];
       for (int i = 0; i < vlist.size(); i++) {
-        VehicleModel v = vlist.get(i);
-        String[] attr = {Integer.toString(v.getRid()), v.getVlicense(),
-          v.getVtname(), v.getMake(), v.getModel(), String.valueOf(v.getYear()), v.getLocation(), v.getCity()};
+        ReportModel r = vlist.get(i);
+        String[] attr = {
+          Integer.toString(r.getCounter())
+        };
         array[i] = attr;
       }
       table4 = new JTable(array, colNames);
@@ -111,32 +110,33 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
       this.add(panel1, BorderLayout.NORTH);
       this.add(panel2, BorderLayout.SOUTH);
       back.addActionListener(this);
-      countCategory.addActionListener(this);
-      countBranch.addActionListener(this);
-      countCompany.addActionListener(this);
-
+//      numVehicle.addActionListener(this);
       this.pack();
       Dimension d = this.getToolkit().getScreenSize();
       Rectangle r = this.getBounds();
       this.setLocation( (d.width - r.width)/2, (d.height - r.height)/2 );
       this.setVisible(true);
     }
-   }
+
+  }
 
   @Override
   public void actionPerformed(ActionEvent e) {
+//    if (e.getSource() == numVehicle) {
+//      this.getContentPane().removeAll();
+//      this.getContentPane().add(sp, BorderLayout.NORTH);
+//      this.getContentPane().add(back, BorderLayout.SOUTH);
+////            this.getContentPane().add(sp);
+//      this.revalidate();
+//      this.pack();
+//      this.repaint();
+//    } else if (e.getSource() == back) {
+//      this.dispose();
+//      new CustomerWindow().showFrame(delegate);
+//    }
     if (e.getSource() == back) {
-    this.dispose();
-    new ReportWindow().showFrame(delegate);
-    } else if (e.getSource() == countCategory) {
       this.dispose();
-      new DisplayReportRentalCountCategoryWindow(this.date,this.location).showFrame(delegate);
-    } else if (e.getSource() == countBranch) {
-      this.dispose();
-      new DisplayReportRentalCountBranchWindow(this.date,this.location).showFrame(delegate);
-    } else if (e.getSource() == countCompany) {
-      this.dispose();
-      new DisplayReportRentalCountCompanyWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReportRentalWindow(this.date, this.location).showFrame(delegate);
     }
   }
 }

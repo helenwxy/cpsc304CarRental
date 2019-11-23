@@ -166,8 +166,32 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
     return dbHandler.getRentalReportInfo3(date, location);
   }
 
+  @Override
+  public ArrayList<ReportModel> showRentalReport4(String date, String location) {
+    return dbHandler.getRentalReportInfo4(date, location);
+  }
+
+  // The report contains information on all the vehicles returned during the day.
+  // The entries are grouped by branch, and within each branch, the entries are grouped by vehicle category.
 //  @Override
-//  public ArrayList<ReportModel> showRentalReport4(String date, String location) {
-//    return dbHandler.getRentalReportInfo4(date, location);
+//  public ArrayList<VehicleModel> showReturnReport1(String date, String location) {
+//    return dbHandler.getReturnReportInfo1(date, location);
 //  }
+
+  /*
+  @Override
+  public ArrayList<ReportModel> showReturnReport2(String date, String location) {
+    return dbHandler.getReturnReportInfo2(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportModel> showReturnReport3(String date, String location) {
+    return dbHandler.getReturnReportInfo3(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportModel> showReturnReport4(String date, String location) {
+    return dbHandler.getReturnReportInfo4(date, location);
+  }
+  */
 }
