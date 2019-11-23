@@ -13,9 +13,9 @@ public class DatabaseConnectionHandler {
 	private static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1522:stu";
 	private static final String EXCEPTION_TAG = "[EXCEPTION]";
 	private static final String WARNING_TAG = "[WARNING]";
-	
+
 	private Connection connection = null;
-	
+
 	public DatabaseConnectionHandler() {
 		try {
 			// Load the Oracle JDBC driver
@@ -25,7 +25,7 @@ public class DatabaseConnectionHandler {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
 	}
-	
+
 	public void close() {
 		try {
 			if (connection != null) {
@@ -133,16 +133,16 @@ public class DatabaseConnectionHandler {
 //			rollbackConnection();
 //		}
 //	}
-	
+
 	public boolean login(String username, String password) {
 		try {
 			if (connection != null) {
 				connection.close();
 			}
-	
+
 			connection = DriverManager.getConnection(ORACLE_URL, username, password);
 			connection.setAutoCommit(false);
-	
+
 			System.out.println("\nConnected to Oracle!");
 			return true;
 		} catch (SQLException e) {
@@ -153,7 +153,7 @@ public class DatabaseConnectionHandler {
 
 	private void rollbackConnection() {
 		try  {
-			connection.rollback();	
+			connection.rollback();
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 		}
@@ -196,7 +196,7 @@ public class DatabaseConnectionHandler {
 						rs.getString("model"),
 						rs.getInt("year"),
 						rs.getString("location"),
-						rs.getString("location"));
+						rs.getString("city"));
 				result.add(model);
 			}
 
@@ -274,4 +274,84 @@ public class DatabaseConnectionHandler {
 			return false;
 		}
 	}
+
+  // the purpose of this is to display information on all vehicles rented out during the date
+  // the entries are groups by branch and within each branch, the entires are group by vehicle category
+  public ArrayList<VehicleModel> getRentalReportInfo1(String dateR, String locationR) {
+    ArrayList<VehicleModel> result = new ArrayList<VehicleModel>();
+    try {
+      PreparedStatement ps = connection.prepareStatement("SELECT r.rid, r.vlicense, v.vtname, v.make, v.model, v.year, v.location, v.city " +
+        "FROM vehicle v, rental r " +
+        "WHERE v.vlicense = r.vlicense AND to_char(r.fromdate, 'YYYY-MM-DD') = ?");
+      ps.setString(1,dateR);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        VehicleModel vm = new VehicleModel(rs.getInt(1), rs.getString(2),rs.getString(3),
+          rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getString(8));
+        result.add(vm);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return result;
+  }
+//  public ArrayList<VehicleModel> getRentalReportInfo2(String dateR, String locationR) {
+//    ArrayList<VehicleModel> result = new ArrayList<VehicleModel>();
+//    PreparedStatement ps = null;
+//    ResultSet rs = null;
+//
+//    try {
+//      if (locationR == "") { // this is for all branches
+//        ps = connection.prepareStatement(
+//          "SELECT v.location, v.vtname, COUNT(r.rid) " +
+//            "FROM rental r, vehicle v " +
+//            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ?" +
+//            "GROUP BY v.vtname, v.location"
+//        );
+//        ps.setDate(1, java.sql.Date.valueOf(dateR));
+//        rs = ps.executeQuery();
+//        while (rs.next()) {
+//          VehicleModel model = new VehicleModel (
+//            rs.getInt("rid"),
+//            rs.getString("vlicense"),
+//            rs.getString("vtname"),
+//            rs.getString("make"),
+//            rs.getString("model"),
+//            rs.getInt("year"),
+//            rs.getString("location"),
+//            rs.getString("city"));
+//          result.add(model);
+//        }
+////        rs.next();
+//      } else { // this is for a single branch
+//        ps = connection.prepareStatement(
+//          "SELECT r.rid, r.vlicense, v.make, v.model, v.year, v.location, v.city " +
+//            "FROM rental r, vehicle v " +
+//            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? AND v.location = ?" +
+//            "ORDER BY vtname"
+//        );
+//        ps.setDate(1, java.sql.Date.valueOf(dateR));
+//        ps.setString(2, locationR);
+//        rs = ps.executeQuery();
+////        rs.next();
+//        while (rs.next()) {
+//          VehicleModel model = new VehicleModel (
+//            rs.getInt("rid"),
+//            rs.getString("vlicense"),
+//            rs.getString("vtname"),
+//            rs.getString("make"),
+//            rs.getString("model"),
+//            rs.getInt("year"),
+//            rs.getString("location"),
+//            rs.getString("city"));
+//          result.add(model);
+//        }
+//      }
+//      rs.close();
+//      ps.close();
+//    } catch (SQLException e) {
+//      //
+//    }
+//    return result;
+//  }
 }

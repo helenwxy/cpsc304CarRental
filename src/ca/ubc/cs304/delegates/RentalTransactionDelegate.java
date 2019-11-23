@@ -15,4 +15,7 @@ public interface RentalTransactionDelegate {
                             String todate, String totime) throws SQLException;
 
     boolean insertNewCustomer(String dlicense, String name, String address, String phone);
+
+    ArrayList<VehicleModel> showRentalReport1(String date, String location);
+    ArrayList<VehicleModel> showRentalReport2(String date, String location);
 }

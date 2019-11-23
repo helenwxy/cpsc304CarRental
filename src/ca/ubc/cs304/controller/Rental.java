@@ -24,17 +24,17 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 	public Rental() {
 		dbHandler = new DatabaseConnectionHandler();
 	}
-	
+
 	private void start() {
 		loginWindow = new LoginWindow();
 		loginWindow.showFrame(this);
 	}
-	
+
 	/**
 	 * LoginWindowDelegate Implementation
-	 * 
+	 *
      * connects to Oracle database with supplied username and password
-     */ 
+     */
 	public void login(String username, String password) {
 		boolean didConnect = dbHandler.login(username, password);
 
@@ -55,10 +55,10 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 			}
 		}
 	}
-	
+
 	/**
 	 * TermainalTransactionsDelegate Implementation
-	 * 
+	 *
 	 * Insert a branch with the given info
 	 */
 //    public void insertBranch(BranchModel model) {
@@ -73,10 +73,10 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 //    public void deleteBranch(int branchId) {
 //    	dbHandler.deleteBranch(branchId);
 //    }
-    
+
     /**
 	 * TermainalTransactionsDelegate Implementation
-	 * 
+	 *
 	 * Update the branch name for a specific ID
 	 */
 
@@ -86,7 +86,7 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 
     /**
 	 * TermainalTransactionsDelegate Implementation
-	 * 
+	 *
 	 * Displays information about varies bank branches.
 	 */
 //    public void showBranch() {
@@ -113,20 +113,20 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 //    		System.out.println();
 //    	}
 //    }
-	
+
     /**
 	 * TerminalTransactionsDelegate Implementation
-	 * 
-     * The TerminalTransaction instance tells us that it is done with what it's 
+	 *
+     * The TerminalTransaction instance tells us that it is done with what it's
      * doing so we are cleaning up the connection since it's no longer needed.
-     */ 
+     */
     public void terminalTransactionsFinished() {
     	dbHandler.close();
     	dbHandler = null;
-    	
+
     	System.exit(0);
     }
-    
+
 	/**
 	 * Main method called at launch time
 	 */
@@ -150,4 +150,13 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 		return dbHandler.insertNewCustomer(dlicense, name, address, phone);
 	}
 
+  @Override
+  public ArrayList<VehicleModel> showRentalReport1(String date, String location) {
+    return dbHandler.getRentalReportInfo1(date, location);
+  }
+
+  @Override
+  public ArrayList<VehicleModel> showRentalReport2(String date, String location) {
+    return dbHandler.getRentalReportInfo1(date, location);
+  }
 }
