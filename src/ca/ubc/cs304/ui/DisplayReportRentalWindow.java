@@ -30,11 +30,11 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
   }
   public void showFrame(RentalTransactionDelegate delegate) {
     this.delegate = delegate;
-    ArrayList<VehicleModel> vlist = delegate.showReturnReport1(date, location);
+    ArrayList<VehicleModel> vlist = delegate.showRentalReport1(date, location);
     back = new JButton("Back");
-    countCategory = new JButton("Count Return/category");
-    countBranch = new JButton("Revenue and Counts/branch");
-    countCompany = new JButton("All Revenue&Returns for the day");
+    countCategory = new JButton("Count Rents/category");
+    countBranch = new JButton("Count Rents/branch");
+    countCompany = new JButton("All Rents for the day");
     if (vlist.isEmpty()) {
       this.setLayout(new BorderLayout());
       JPanel topPanel = new JPanel();
@@ -128,13 +128,13 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
     new ReportWindow().showFrame(delegate);
     } else if (e.getSource() == countCategory) {
       this.dispose();
-      new DisplayReturnReportCountCategoryWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReportRentalCountCategoryWindow(this.date,this.location).showFrame(delegate);
     } else if (e.getSource() == countBranch) {
       this.dispose();
-      new DisplayReturnReportRevenueBranchWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReportRentalCountBranchWindow(this.date,this.location).showFrame(delegate);
     } else if (e.getSource() == countCompany) {
       this.dispose();
-      new DisplayReturnGrandTotalWindow(this.date,this.location).showFrame(delegate);
+      new DisplayReportRentalCountCompanyWindow(this.date,this.location).showFrame(delegate);
     }
   }
 }

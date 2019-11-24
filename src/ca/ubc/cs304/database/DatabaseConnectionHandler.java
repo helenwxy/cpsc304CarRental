@@ -237,8 +237,6 @@ public class DatabaseConnectionHandler {
         while (rs.next()) {
           ReportModel model = new ReportModel (
             rs.getString(1),
-//            rs.getString("make"),
-//            rs.getString("model"),
             rs.getInt(2));
           result.add(model);
         }
@@ -380,19 +378,18 @@ public class DatabaseConnectionHandler {
     ArrayList<ReportReturnModel> result = new ArrayList<ReportReturnModel>();
     if (locationR.equals("")) {
       try { // all branches
-        PreparedStatement ps = connection.prepareStatement( // todo: fix SQL
-          "SELECT v.vtname, COUNT(r.rid)" +
-            "FROM rental r, vehicle v " +
-            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? " +
-            "GROUP BY v.vtname ");
+        PreparedStatement ps = connection.prepareStatement(
+          "SELECT v.vtname, COUNT(r.rid), SUM(t.value) " +
+            "FROM rental r, vehicle v, return t " +
+            "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? " +
+            "GROUP BY v.vtname");
         ps.setString(1,dateR);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-          ReportReturnModel model = new ReportReturnModel ( // todo: check if right or wrong
+          ReportReturnModel model = new ReportReturnModel (
             rs.getString(1),
-//            rs.getString("make"),
-//            rs.getString("model"),
-            rs.getInt(2));
+            rs.getInt(2),
+            rs.getFloat(3));
           result.add(model);
         }
       } catch (SQLException e) {
@@ -400,18 +397,20 @@ public class DatabaseConnectionHandler {
       }
     } else { // specific one branch
       try {
-        PreparedStatement ps = connection.prepareStatement( // todo: fix SQL
-          "SELECT v.vtname, COUNT(r.rid) " +
-            "FROM rental r, vehicle v " +
-            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? AND v.location = ? " +
-            "GROUP BY v.vtname  ");
+        PreparedStatement ps = connection.prepareStatement(
+          "SELECT v.vtname, COUNT (r.rid), SUM(t.VALUE) " +
+            "FROM rental r, vehicle v, return t " +
+            "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? " +
+            "AND v.location = ? " +
+            "GROUP BY v.vtname");
         ps.setString(1, dateR);
         ps.setString(2, locationR);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-          ReportReturnModel model = new ReportReturnModel ( // todo: check if right or wrong
+          ReportReturnModel model = new ReportReturnModel (
             rs.getString(1),
-            rs.getInt(2));
+            rs.getInt(2),
+            rs.getFloat(3));
           result.add(model);
         }
       } catch (SQLException e) {
@@ -426,15 +425,15 @@ public class DatabaseConnectionHandler {
     if (locationR.equals("")) {
       try { // all branches
         PreparedStatement ps = connection.prepareStatement( // todo: Fix the SQL
-          "SELECT v.location, COUNT(r.rid)" +
-            "FROM rental r, vehicle v " +
-            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? " +
-            "GROUP BY v.location ");
+          "SELECT v.location, COUNT (r.rid), SUM(t.VALUE) " +
+            "FROM rental r, vehicle v, return t " +
+            "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? " +
+            "GROUP BY v.location");
         ps.setString(1,dateR);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-          ReportReturnModel model = new ReportReturnModel ( // todo:
-            rs.getString(1), rs.getInt(2));
+          ReportReturnModel model = new ReportReturnModel (
+            rs.getString(1), rs.getInt(2), rs.getFloat(3));
           result.add(model);
         }
       } catch (SQLException e) {
@@ -442,17 +441,18 @@ public class DatabaseConnectionHandler {
       }
     } else { // specific one branch
       try {
-        PreparedStatement ps = connection.prepareStatement(
-          "SELECT v.location, COUNT(r.rid) " +
-            "FROM rental r, vehicle v " +
-            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? AND v.location = ? " +
-            "GROUP BY v.location  ");
+        PreparedStatement ps = connection.prepareStatement( // todo fix SQL
+          "SELECT v.location, COUNT (r.rid), SUM(t.VALUE) " +
+            "FROM rental r, vehicle v, return t " +
+            "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? " +
+            "AND v.location = ? " +
+            "GROUP BY v.location");
         ps.setString(1, dateR);
         ps.setString(2, locationR);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-          ReportReturnModel model = new ReportReturnModel ( // todo:
-            rs.getString(1), rs.getInt(2));
+          ReportReturnModel model = new ReportReturnModel (
+            rs.getString(1), rs.getInt(2), rs.getFloat(3));
           result.add(model);
         }
       } catch (SQLException e) {

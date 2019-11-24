@@ -22,7 +22,7 @@ public class DisplayReportRentalCountCompanyWindow extends JFrame implements Act
   private JScrollPane sp;
 
   public DisplayReportRentalCountCompanyWindow(String date, String location) {
-    super("Rental Report for one branch");
+    super("DisplayReportRentalCountCompanyWindow");
     this.date = date;
     this.location = location;
   }

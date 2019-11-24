@@ -27,6 +27,12 @@ public class ReportReturnModel {
     this.location = location;
   }
 
+  public ReportReturnModel(String vtname, int counter, float money) {
+    this.vtname = vtname;
+    this.counter = counter;
+    this.money = money;
+  }
+
 
   public String getLocation() {
     return location;

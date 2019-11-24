@@ -21,7 +21,7 @@ public class DisplayReportRentalCountBranchWindow extends JFrame implements Acti
   private JScrollPane sp;
 
   public DisplayReportRentalCountBranchWindow(String date, String location) {
-    super("Rental Report for one branch");
+    super("DisplayReportRentalCountBranchWindow");
     this.date = date;
     this.location = location;
   }
@@ -121,18 +121,6 @@ public class DisplayReportRentalCountBranchWindow extends JFrame implements Acti
 
   @Override
   public void actionPerformed(ActionEvent e) {
-//    if (e.getSource() == numVehicle) {
-//      this.getContentPane().removeAll();
-//      this.getContentPane().add(sp, BorderLayout.NORTH);
-//      this.getContentPane().add(back, BorderLayout.SOUTH);
-////            this.getContentPane().add(sp);
-//      this.revalidate();
-//      this.pack();
-//      this.repaint();
-//    } else if (e.getSource() == back) {
-//      this.dispose();
-//      new CustomerWindow().showFrame(delegate);
-//    }
     if (e.getSource() == back) {
       this.dispose();
       new DisplayReportRentalWindow(this.date, this.location).showFrame(delegate);

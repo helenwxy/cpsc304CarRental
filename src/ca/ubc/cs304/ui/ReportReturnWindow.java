@@ -111,7 +111,7 @@ public class ReportReturnWindow extends JFrame implements ActionListener {
     if (e.getSource() == submit) {
 //            ArrayList<VehicleModel> vehicle = delegate.showQualifiedVehicle((String)vtname.getSelectedItem(),locationField.getText());
       this.dispose();
-      new DisplayReportRentalWindow((String)rentaldateField.getText(),locationField.getText()).showFrame(delegate);
+      new DisplayReturnReportWindow(rentaldateField.getText(),locationField.getText()).showFrame(delegate);
     } else if (e.getSource() == back) {
       this.dispose();
       new ReportWindow().showFrame(delegate);

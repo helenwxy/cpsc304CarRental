@@ -21,7 +21,7 @@ public class RentalReportWindow extends JFrame implements ActionListener {
 //  private JComboBox vtname;
 
   public RentalReportWindow() {
-    super("Car Rental");
+    super("RentalReportWindow");
   }
 
   public void showFrame(RentalTransactionDelegate delegate) {

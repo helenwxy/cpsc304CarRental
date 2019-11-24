@@ -21,7 +21,7 @@ public class DisplayVehicleWindow extends JFrame implements ActionListener {
   private JScrollPane sp;
 
   public DisplayVehicleWindow(String vtname, String location) {
-    super("View Vehicle");
+    super("DisplayVehicleWindow");
     this.vtname = vtname;
     this.location = location;
   }

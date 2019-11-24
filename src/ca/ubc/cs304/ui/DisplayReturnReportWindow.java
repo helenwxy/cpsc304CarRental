@@ -24,7 +24,7 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
   private JScrollPane sp;
 
   public DisplayReturnReportWindow(String date, String location) {
-    super("Rental Report for one branch");
+    super("DisplayReturnReportWindow");
     this.date = date;
     this.location = location;
   }

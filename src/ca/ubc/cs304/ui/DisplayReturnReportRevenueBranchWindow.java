@@ -124,18 +124,6 @@ public class DisplayReturnReportRevenueBranchWindow extends JFrame implements Ac
 
   @Override
   public void actionPerformed(ActionEvent e) {
-//    if (e.getSource() == numVehicle) {
-//      this.getContentPane().removeAll();
-//      this.getContentPane().add(sp, BorderLayout.NORTH);
-//      this.getContentPane().add(back, BorderLayout.SOUTH);
-////            this.getContentPane().add(sp);
-//      this.revalidate();
-//      this.pack();
-//      this.repaint();
-//    } else if (e.getSource() == back) {
-//      this.dispose();
-//      new CustomerWindow().showFrame(delegate);
-//    }
     if (e.getSource() == back) {
       this.dispose();
       new DisplayReturnReportWindow(this.date, this.location).showFrame(delegate);

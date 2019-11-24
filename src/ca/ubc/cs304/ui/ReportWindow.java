@@ -14,7 +14,7 @@ public class ReportWindow extends JFrame implements ActionListener {
   JButton backbutton = new JButton("back");
   JPanel panel = new JPanel();
   public ReportWindow() {
-    super("Car Rental");
+    super("ReportWindow");
   }
 
   public void showFrame(RentalTransactionDelegate delegate) {
