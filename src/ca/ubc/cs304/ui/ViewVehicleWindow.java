@@ -146,12 +146,17 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == submit) {
 //            ArrayList<VehicleModel> vehicle = delegate.showQualifiedVehicle((String)vtname.getSelectedItem(),locationField.getText());
-            String[] fromDate = fromdateField.getText().split("-",-1);
-            String[] toDate = fromdateField.getText().split("-",-1);
-            Integer fromYear = Integer.valueOf(fromDate[0]);
-            Integer toYear = Integer.valueOf(toDate[0]);
-            if (fromYear < 2010 || toYear < 2010) {
-                PopupBox.infoBox("Please enter a valid time period", "Error");
+            if (!fromdateField.getText().equals("")) {
+                String[] fromDate = fromdateField.getText().split("-",-1);
+                String[] toDate = fromdateField.getText().split("-",-1);
+                Integer fromYear = Integer.valueOf(fromDate[0]);
+                Integer toYear = Integer.valueOf(toDate[0]);
+                if (fromYear < 2010 || toYear < 2010) {
+                    PopupBox.infoBox("Please enter a valid time period", "Error");
+                } else {
+                    this.dispose();
+                    new DisplayVehicleWindow((String) vtname.getSelectedItem(), locationField.getText()).showFrame(delegate);
+                }
             } else {
                 this.dispose();
                 new DisplayVehicleWindow((String) vtname.getSelectedItem(), locationField.getText()).showFrame(delegate);

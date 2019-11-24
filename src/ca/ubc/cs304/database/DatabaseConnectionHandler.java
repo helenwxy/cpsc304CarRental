@@ -186,8 +186,8 @@ public class DatabaseConnectionHandler {
 	public int hasLicense(String vlicense) {
 		try {
 			PreparedStatement ps = connection.prepareStatement("" +
-					"SELECT r.rid FROM rental r WHERE r.VLICENSE = ? AND " +
-					"r.rid NOT IN (SELECT rt.rid FROM return rt)");
+					"SELECT r.rid FROM rental r, vehicle v WHERE r.VLICENSE = ? AND r.vlicense = v.vlicense " +
+					"AND v.status = 'Rented' AND r.rid NOT IN (SELECT rt.rid FROM return rt)");
 			ps.setString(1,vlicense);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
