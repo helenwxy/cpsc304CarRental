@@ -2,18 +2,19 @@ package ca.ubc.cs304.controller;
 
 import ca.ubc.cs304.database.DatabaseConnectionHandler;
 import ca.ubc.cs304.delegates.LoginWindowDelegate;
-import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
+
 import ca.ubc.cs304.model.BranchModel;
 import ca.ubc.cs304.model.ReportModel;
 import ca.ubc.cs304.model.ReportReturnModel;
+
+import ca.ubc.cs304.model.ReservationModel;
+
 import ca.ubc.cs304.model.VehicleModel;
 import ca.ubc.cs304.ui.LoginWindow;
 import ca.ubc.cs304.ui.MainWindow;
 
-import javax.swing.*;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -198,4 +199,14 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
   public boolean branchExists(String location) {
     return dbHandler.branchExists(location);
   }
+
+	@Override
+	public ReservationModel makeRentalWithReservation(String confNo, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		return dbHandler.insertRentWithReservation(confNo, location, cardName, cardNumber, cardExpiryDate);
+	}
+
+	@Override
+	public String makeRental(String dlicense, String fromDate, String fromTime, String toDate, String toTime, String vtname, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		return dbHandler.insertRent(dlicense, fromDate, fromTime, toDate, toTime, vtname, location, cardName, cardNumber, cardExpiryDate);
+	}
 }

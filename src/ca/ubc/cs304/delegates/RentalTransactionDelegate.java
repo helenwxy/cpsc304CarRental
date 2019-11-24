@@ -1,7 +1,11 @@
 package ca.ubc.cs304.delegates;
 
+
 import ca.ubc.cs304.model.ReportModel;
 import ca.ubc.cs304.model.ReportReturnModel;
+import ca.ubc.cs304.controller.Rental;
+import ca.ubc.cs304.model.RentalModel;
+import ca.ubc.cs304.model.ReservationModel;
 import ca.ubc.cs304.model.VehicleModel;
 
 import javax.swing.*;
@@ -53,4 +57,9 @@ public interface RentalTransactionDelegate {
   ArrayList<ReportReturnModel> showReturnReport4(String date, String location);
 
   boolean branchExists (String location);
+
+  ReservationModel makeRentalWithReservation(String confNo, String location, String cardName, String cardNumber, String cardExpiryDate);
+
+  String makeRental(String dlicense, String fromDate, String fromTime, String toDate, String toTime, String vtname, String location, String carName, String cardNumber, String cardExpiryDate);
 }
+

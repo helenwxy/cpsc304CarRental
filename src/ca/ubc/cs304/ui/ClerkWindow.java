@@ -15,7 +15,7 @@ public class ClerkWindow extends JFrame implements ActionListener {
     JButton back = new JButton("back");
     JPanel panel = new JPanel();
     public ClerkWindow() {
-        super("Clerk renting and return");
+        super("Clerk Main Window");
     }
 
     public void showFrame(RentalTransactionDelegate delegate) {
@@ -50,7 +50,8 @@ public class ClerkWindow extends JFrame implements ActionListener {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5, 10, 10, 10);
         c.anchor = GridBagConstraints.CENTER;
-        gb.setConstraints(b2, c);
+        gb.setConstraints(back, c);
+
         panel.add(back);
 
         b1.addActionListener(this);
@@ -69,13 +70,13 @@ public class ClerkWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == b1) {
             this.dispose();
-//            new ClerkRentMainWindow().showFrame(delegate);
+            new ClerkRentReservationWindow().showFrame(delegate);
         } else if (e.getSource() == b2) {
             this.dispose();
-//            new ReturnVehicleWindow().showFrame(delegate);
+//            new ClerkRentCustomerWindow().showFrame(delegate); // todo: helen put your code here
         } else if (e.getSource() == b3) {
-            this.dispose();
-            new ReportWindow().showFrame(delegate);// ken put your code here
+          this.dispose();
+          new ReportWindow().showFrame(delegate);
         } else if (e.getSource() == back) {
             this.dispose();
             new MainWindow().showFrame(delegate);
