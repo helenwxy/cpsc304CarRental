@@ -51,12 +51,27 @@ Renting a vehicle:
 4. update vehicle status
  */
 
+SELECT COUNT(*)
+FROM reservation
+WHERE confno = user.confno AND dlicense = user.dlcense
+
+
 INSERT INTO rental
-SELECT rid, r.vlicense, r.dlicense, r.fromDate, r.toDate, r.fromTime,
-       r.toTime, v.odometer, cardName, cardNo, expDate, r.confno
+SELECT rid, v.vlicense, r.dlicense, r.fromDate, r.toDate, v.odometer, cardName, cardNo, expDate, r.confno
 FROM reservation r, vehicle v
 WHERE user.confno = r.confno AND
-      v.vlicense = r.vlicense
+      v.vtname = r.vtname AND
+        v.vlicense = (SELECT v2.VLICENSE
+    FROM vehicle v2
+    WHERE v2.vtname = r.vtname AND v2.status = 'Available' AND ROWNUM = 1)
+
+    INSERT INTO rental
+    SELECT 1, v.vlicense, r.dlicense, r.fromDate, r.toDate, v.odometer, '123', 123, '02/03', r.confno
+    FROM reservation r, vehicle v
+    WHERE user.confno = r.confno AND
+    v.vlicense = (SELECT v2.VLICENSE
+    FROM vehicle v2
+    WHERE v2.vtname = r.VTNAME AND ROWNUM = 1)
 
 INSERT INTO rental
 SELECT rid, v.vlicense, dlicense, fromDate, toDate, fromTime,
@@ -65,25 +80,7 @@ FROM vehicle v
 WHERE ROWNUM = 1 AND
       v.vtname = user.vtname AND
       v.location = currBranch AND
-      v.status = "available" AND
-      v.vlicense NOT IN (
-        SELECT r.vlicense
-        FROM reservation r
-        WHERE (user.fromDate <= r.fromDate AND
-            user.toDate >= r.fromDate) OR
-            (user.fromDate >= r. fromDate AND
-            user.toDate <= r.toDate) OR
-            (user.fromDate <= r. toDate AND
-            user.toDate >= r.toDate)
-        UNION
-        SELECT rv.vlicense
-        FROM rental rt
-        WHERE (user.fromDate <= rt.fromDate AND
-            user.toDate >= rt.fromDate) OR
-            (user.fromDate >= rt. fromDate AND
-            user.toDate <= rt.toDate) OR
-            (user.fromDate <= rt. toDate AND
-            user.toDate >= rt.toDate)
+      v.status = "available"
 
 SELECT r.confno, r.rDate, v.vtname, v.location, r.toDate - r.toTime, r.odometer
 FROM reservation r, rental rt, vehicle v

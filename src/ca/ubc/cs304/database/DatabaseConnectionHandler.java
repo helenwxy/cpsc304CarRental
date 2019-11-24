@@ -3,6 +3,7 @@ package ca.ubc.cs304.database;
 import java.sql.*;
 import java.util.ArrayList;
 
+import ca.ubc.cs304.model.ReturnModel;
 import ca.ubc.cs304.model.VehicleModel;
 
 /**
@@ -196,10 +197,11 @@ public class DatabaseConnectionHandler {
 						rs.getString("model"),
 						rs.getInt("year"),
 						rs.getString("location"),
-						rs.getString("location"));
+						rs.getString("city"));
 				result.add(model);
 			}
 
+			rs.close();
 			ps.close();
 		} catch (SQLException e) {
 			System.out.println(EXCEPTION_TAG + " " + e.getMessage());
@@ -217,6 +219,8 @@ public class DatabaseConnectionHandler {
 			rs.next();
 			int numCustomer = rs.getInt(1);
 			System.out.println("numCustomer: " + numCustomer);
+			rs.close();
+			ps.close();
 			if (numCustomer == 0) {
 				return 0;
 			}
@@ -240,6 +244,7 @@ public class DatabaseConnectionHandler {
 			int numRow = ps.executeUpdate();
 			System.out.println("num rows: " + numRow);
 			connection.commit();
+			ps.close();
 			if (numRow == 0) {
 				return -1;
 			} else {
@@ -263,6 +268,7 @@ public class DatabaseConnectionHandler {
 			int numrow = ps.executeUpdate();
 			System.out.println(numrow);
 			connection.commit();
+			ps.close();
 			return true;
 //			if (numrow == 1) {
 //				return true;
@@ -272,6 +278,117 @@ public class DatabaseConnectionHandler {
 		} catch (SQLException e) {
 			rollbackConnection();
 			return false;
+		}
+	}
+
+	public int hasLicense(String vlicense) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("" +
+					"SELECT r.rid FROM rental r WHERE r.VLICENSE = ? AND " +
+					"r.rid NOT IN (SELECT rt.rid FROM return rt)");
+			ps.setString(1,vlicense);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+//				System.out.println("rid = " + rs.getInt(1));
+				int rid = rs.getInt(1);
+				System.out.println("rid = " + rid);
+				rs.close();
+				ps.close();
+				return rid;
+			}
+			rs.close();
+			ps.close();
+			return -1;
+		} catch (SQLException e) {
+			return -1;
+		}
+	}
+
+	public ReturnModel insertReturn(int rid, String vlicense, String odo, String tank) {
+		ReturnModel model = null;
+		int t = 0;
+		if (tank.equals("Y")) {
+			t = 0;
+		}
+		int odometer = 0;
+
+		try
+		{
+			// the String to int conversion happens here
+			odometer = Integer.parseInt(odo.trim());
+
+			// print out the value after the conversion
+//			System.out.println("int i = " + i);
+		}
+		catch (NumberFormatException nfe)
+		{
+			System.out.println("NumberFormatException: " + nfe.getMessage());
+			return null;
+		}
+		try {
+			PreparedStatement ps = connection.prepareStatement("" +
+					"SELECT (sysdate - r.fromdate), vt.hrate, vt.drate, vt.wrate, vt.hirate, vt.dirate, vt.wirate, r.FROMDATE, r.vlicense " +
+					"FROM rental r, vehicle v, VEHICLETYPE vt WHERE r.rid = ? AND r.vlicense = v.vlicense AND v.vtname = vt.vtname");
+//			PreparedStatement ps = connection.prepareStatement("INSERT INTO return " +
+//					"SELECT r.rid, sysdate, ?,?, " +
+//					"(trunc(((86400*(sysdate-r.FROMDATE))/60)/60)-24*(trunc((((86400*(sysdate-r.fromdate))/60)/60)/24))) " +
+//					"FROM rental r, vehicle v, vehicletype vt WHERE r.VLICENSE = ? AND v.vlicense = ? AND v.v"+
+//					"NOT EXISTS (SELECT * FROM return rt WHERE rt.rid = r.rid)");
+			ps.setInt(1,rid);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			float dateDifference = rs.getFloat(1);
+			int hrate = rs.getInt(2);
+			int drate = rs.getInt(3);
+			int wrate = rs.getInt(4);
+			int hirate = rs.getInt(5);
+			int dirate = rs.getInt(6);
+			int wirate = rs.getInt(7);
+			String date = rs.getString(8);
+			String license = rs.getString(9);
+
+			System.out.println("time difference " + dateDifference);
+			int weeks = (int)dateDifference / 7;
+			int days = ((int) dateDifference) % 7;
+			int hours = (int) (dateDifference * 24 % 24);
+			float total = hrate*hours+hirate*hours+drate*days+dirate*days+wrate*weeks+wirate*weeks;
+			System.out.println("week: " + weeks + "days: " + days + "hours :" + hours);
+			System.out.println("hrate = " + hrate);
+			System.out.println("date = " + date);
+
+
+			PreparedStatement ps2 = connection.prepareStatement("INSERT INTO return " +
+					"SELECT ?, sysdate, ?,?, ?" +
+					"FROM rental r, vehicle v, VEHICLETYPE vt WHERE r.rid = ? AND r.vlicense = v.vlicense AND v.vtname = vt.vtname");
+//			PreparedStatement ps2 = connection.prepareStatement("INSERT INTO return " +
+//					"SELECT ?, sysdate, ?,?, ?*vt.hrate + ?*vt.drate + ?*vt.wrate + ?*vt.hirate + ?*vt.dirate + ?*vt.wirate + ?" +
+//							"FROM rental r, vehicle v, VEHICLETYPE vt WHERE r.rid = ? AND r.vlicense = v.vlicense AND v.vtname = vt.vtname");
+			ps2.setInt(1, rid);
+			ps2.setInt(2, odometer);
+			ps2.setInt(3, t);
+			ps2.setFloat(4, total);
+			ps2.setInt(5, rid);
+
+			int numrow = ps2.executeUpdate();
+			System.out.println(numrow);
+			connection.commit();
+
+			PreparedStatement ps3 = connection.prepareStatement("UPDATE vehicle SET status = 'Available', ODOMETER = ? WHERE vlicense = ?");
+			ps3.setString(1,license);
+			ps3.setInt(2, odometer);
+			connection.commit();
+
+			ps.close();
+			ps2.close();
+			ps3.close();
+
+			model = new ReturnModel(hrate, drate, wrate, hirate, dirate, wirate, hours, days, weeks, date, total);
+			return model;
+//			PreparedStatement ps2 = connection.prepareStatement("" +
+//					"SELECT r.rid FROM rental r WHERE r.VLICENSE = ? AND " +
+//					"NOT EXISTS (SELECT * FROM return rt WHERE rt.rid = r.rid)");
+		} catch (SQLException e) {
+			return null;
 		}
 	}
 }

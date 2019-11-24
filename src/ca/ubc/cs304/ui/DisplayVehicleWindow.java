@@ -121,7 +121,6 @@ public class DisplayVehicleWindow extends JFrame implements ActionListener {
             this.getContentPane().removeAll();
             this.getContentPane().add(sp, BorderLayout.NORTH);
             this.getContentPane().add(back, BorderLayout.SOUTH);
-//            this.getContentPane().add(sp);
             this.revalidate();
             this.pack();
             this.repaint();

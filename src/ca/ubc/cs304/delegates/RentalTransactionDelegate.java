@@ -1,10 +1,9 @@
 package ca.ubc.cs304.delegates;
 
+import ca.ubc.cs304.model.ReturnModel;
 import ca.ubc.cs304.model.VehicleModel;
 
-import javax.swing.*;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public interface RentalTransactionDelegate {
@@ -15,4 +14,8 @@ public interface RentalTransactionDelegate {
                             String todate, String totime) throws SQLException;
 
     boolean insertNewCustomer(String dlicense, String name, String address, String phone);
+
+    int getRid(String vlicense);
+
+    ReturnModel insertReturn(int rid, String vlicense, String odo, String tank);
 }
