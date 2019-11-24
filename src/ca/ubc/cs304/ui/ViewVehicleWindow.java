@@ -152,7 +152,6 @@ public class ViewVehicleWindow extends JFrame implements ActionListener {
             this.dispose();
             new CustomerWindow().showFrame(delegate);
         }
-
     }
 }
 

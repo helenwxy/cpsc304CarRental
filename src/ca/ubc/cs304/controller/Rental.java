@@ -2,16 +2,19 @@ package ca.ubc.cs304.controller;
 
 import ca.ubc.cs304.database.DatabaseConnectionHandler;
 import ca.ubc.cs304.delegates.LoginWindowDelegate;
-import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
+
 import ca.ubc.cs304.model.BranchModel;
+import ca.ubc.cs304.model.ReportModel;
+import ca.ubc.cs304.model.ReportReturnModel;
+
+import ca.ubc.cs304.model.ReservationModel;
+
 import ca.ubc.cs304.model.VehicleModel;
 import ca.ubc.cs304.ui.LoginWindow;
 import ca.ubc.cs304.ui.MainWindow;
 
-import javax.swing.*;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -24,17 +27,17 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 	public Rental() {
 		dbHandler = new DatabaseConnectionHandler();
 	}
-	
+
 	private void start() {
 		loginWindow = new LoginWindow();
 		loginWindow.showFrame(this);
 	}
-	
+
 	/**
 	 * LoginWindowDelegate Implementation
-	 * 
+	 *
      * connects to Oracle database with supplied username and password
-     */ 
+     */
 	public void login(String username, String password) {
 		boolean didConnect = dbHandler.login(username, password);
 
@@ -55,10 +58,10 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 			}
 		}
 	}
-	
+
 	/**
 	 * TermainalTransactionsDelegate Implementation
-	 * 
+	 *
 	 * Insert a branch with the given info
 	 */
 //    public void insertBranch(BranchModel model) {
@@ -73,10 +76,10 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 //    public void deleteBranch(int branchId) {
 //    	dbHandler.deleteBranch(branchId);
 //    }
-    
+
     /**
 	 * TermainalTransactionsDelegate Implementation
-	 * 
+	 *
 	 * Update the branch name for a specific ID
 	 */
 
@@ -86,7 +89,7 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 
     /**
 	 * TermainalTransactionsDelegate Implementation
-	 * 
+	 *
 	 * Displays information about varies bank branches.
 	 */
 //    public void showBranch() {
@@ -113,20 +116,20 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 //    		System.out.println();
 //    	}
 //    }
-	
+
     /**
 	 * TerminalTransactionsDelegate Implementation
-	 * 
-     * The TerminalTransaction instance tells us that it is done with what it's 
+	 *
+     * The TerminalTransaction instance tells us that it is done with what it's
      * doing so we are cleaning up the connection since it's no longer needed.
-     */ 
+     */
     public void terminalTransactionsFinished() {
     	dbHandler.close();
     	dbHandler = null;
-    	
+
     	System.exit(0);
     }
-    
+
 	/**
 	 * Main method called at launch time
 	 */
@@ -150,4 +153,60 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 		return dbHandler.insertNewCustomer(dlicense, name, address, phone);
 	}
 
+  @Override
+  public ArrayList<VehicleModel> showRentalReport1(String date, String location) {
+    return dbHandler.getRentalReportInfo1(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportModel> showRentalReport2(String date, String location) {
+    return dbHandler.getRentalReportInfo2(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportModel> showRentalReport3(String date, String location) {
+    return dbHandler.getRentalReportInfo3(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportModel> showRentalReport4(String date, String location) {
+    return dbHandler.getRentalReportInfo4(date, location);
+  }
+
+  // The report contains information on all the vehicles returned during the day.
+  // The entries are grouped by branch, and within each branch, the entries are grouped by vehicle category.
+  @Override
+  public ArrayList<VehicleModel> showReturnReport1(String date, String location) {
+    return dbHandler.getReturnReportInfo1(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportReturnModel> showReturnReport2(String date, String location) {
+    return dbHandler.getReturnReportInfo2(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportReturnModel> showReturnReport3(String date, String location) {
+    return dbHandler.getReturnReportInfo3(date, location);
+  }
+
+  @Override
+  public ArrayList<ReportReturnModel> showReturnReport4(String date, String location) {
+    return dbHandler.getReturnReportInfo4(date, location);
+  }
+
+  @Override
+  public boolean branchExists(String location) {
+    return dbHandler.branchExists(location);
+  }
+
+	@Override
+	public ReservationModel makeRentalWithReservation(String confNo, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		return dbHandler.insertRentWithReservation(confNo, location, cardName, cardNumber, cardExpiryDate);
+	}
+
+	@Override
+	public String makeRental(String dlicense, String fromDate, String fromTime, String toDate, String toTime, String vtname, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		return dbHandler.insertRent(dlicense, fromDate, fromTime, toDate, toTime, vtname, location, cardName, cardNumber, cardExpiryDate);
+	}
 }
