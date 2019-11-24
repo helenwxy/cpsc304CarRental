@@ -469,7 +469,7 @@ public class DatabaseConnectionHandler {
   public ArrayList<ReportReturnModel> getReturnReportInfo4(String dateR, String locationR) {
     ArrayList<ReportReturnModel> result = new ArrayList<ReportReturnModel>();
     try { // all branches
-      PreparedStatement ps = connection.prepareStatement( // todo: Fix the SQL
+      PreparedStatement ps = connection.prepareStatement(
         "SELECT SUM(t.VALUE) " +
           "FROM rental r, vehicle v, return t " +
           "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? ");
@@ -485,4 +485,27 @@ public class DatabaseConnectionHandler {
     }
     return result;
   }
+
+  // checks if a certain branch exists
+  // uses the the participation constraint in ER where a branch with no cars cannot exist
+  public boolean branchExists (String locationR) {
+    boolean locexist = false;
+    int branchHereNum = 0;
+    try {
+      PreparedStatement ps = connection.prepareStatement(
+        "SELECT COUNT(*) " +
+          "FROM vehicle v " +
+          "WHERE v.location = ? ");
+      ps.setString(1, locationR);
+      ResultSet rs = ps.executeQuery();
+      while (rs.next()) {
+        branchHereNum = rs.getInt(1);
+        locexist = (0 != branchHereNum);
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return locexist;
+  }
+
 }

@@ -109,8 +109,11 @@ public class RentalReportWindow extends JFrame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == submit) {
-//            ArrayList<VehicleModel> vehicle = delegate.showQualifiedVehicle((String)vtname.getSelectedItem(),locationField.getText());
             this.dispose();
+            if (!delegate.branchExists(locationField.getText()) &&
+            !locationField.getText().equals("")) {
+              PopupBox.infoBox("We don't have a branch there", "No Branch");
+            }
             new DisplayReportRentalWindow((String)rentaldateField.getText(),locationField.getText()).showFrame(delegate);
     } else if (e.getSource() == back) {
       this.dispose();

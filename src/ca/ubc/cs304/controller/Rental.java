@@ -193,4 +193,9 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
   public ArrayList<ReportReturnModel> showReturnReport4(String date, String location) {
     return dbHandler.getReturnReportInfo4(date, location);
   }
+
+  @Override
+  public boolean branchExists(String location) {
+    return dbHandler.branchExists(location);
+  }
 }

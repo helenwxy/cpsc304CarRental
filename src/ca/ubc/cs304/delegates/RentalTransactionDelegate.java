@@ -52,4 +52,5 @@ public interface RentalTransactionDelegate {
   // this will bre able to deal with one or all branches
   ArrayList<ReportReturnModel> showReturnReport4(String date, String location);
 
+  boolean branchExists (String location);
 }
