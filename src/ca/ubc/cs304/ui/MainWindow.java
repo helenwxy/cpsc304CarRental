@@ -56,7 +56,7 @@ public class MainWindow extends JFrame implements ActionListener {
         } else if (e.getSource() == b2) {
             this.dispose();
 //            new ClerkWindow().showFrame(delegate);
-            new ReturnWindow().showFrame(delegate);
+            new ClerkWindow().showFrame(delegate);
 
         }
     }
