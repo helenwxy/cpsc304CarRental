@@ -31,7 +31,11 @@ create table vehicle
     vtname               not null,
     location varchar(40) not null,
     city     varchar(20) not null,
-    foreign key (vtname) references vehicleType,
+
+    CONSTRAINT fk_vehicleType
+        FOREIGN KEY (vtname)
+        REFERENCES vehicleType(vtname)
+        ON DELETE CASCADE,
     CHECK (status IN ('Available', 'Rented', 'Maintenance'))
 );
 
@@ -43,8 +47,15 @@ create table reservation
     fromDate date        not null,
     toDate   date        not null,
     rDate    date        not null,
-    foreign key (vtname) references vehicleType,
-    foreign key (dlicense) references customer
+
+    CONSTRAINT fk_vehicleType
+        FOREIGN KEY (vtname)
+        REFERENCES vehicleType(vtname)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_customer
+        FOREIGN KEY (dlicense)
+        REFERENCES customer(dlicense)
+        ON DELETE CASCADE
 );
 
 create table rental
@@ -59,9 +70,20 @@ create table rental
     cardNo   varchar(20) not null,
     expDate  date        not null,
     confNo   integer,
-    foreign key (vlicense) references vehicle,
-    foreign key (dlicense) references customer,
-    foreign key (confNo) references reservation,
+
+    CONSTRAINT fk_vehicle
+        FOREIGN KEY (vlicense)
+        REFERENCES vehicle(vlicense)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_customer
+        FOREIGN KEY (dlicense)
+        REFERENCES customer(dlicense)
+        ON DELETE CASCADE,
+    CONSTRAINT fk_reservation
+        FOREIGN KEY (confNo)
+        REFERENCES reservation(confNo)
+        ON DELETE CASCADE,
+
     CHECK (cardName IN ('Mastercard', 'Visa'))
 );
 
@@ -72,5 +94,9 @@ create table return
     odometer integer not null,
     fulltank number  not null,
     value    float   not null,
-    foreign key (rid) references rental
+
+    CONSTRAINT fk_rental
+        FOREIGN KEY (rid)
+        REFERENCES rental(rid)
+        ON DELETE CASCADE
 );
