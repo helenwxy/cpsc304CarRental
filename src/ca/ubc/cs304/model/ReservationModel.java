@@ -42,14 +42,14 @@ public class ReservationModel {
     }
 
     public String getfromDate() {
-        return fromDate;
+        return fromDate.substring(0, 16);
     }
 
     public String gettoDate() {
-        return toDate;
+        return toDate.substring(0, 16);
     }
 
-    public String getrDate() { return rDate; }
+    public String getrDate() { return rDate.substring(0, 7); }
 
     public int getrid() {
         return rid;

@@ -198,7 +198,6 @@ public class ClerkRentWithoutReservationWindow extends JFrame implements ActionL
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == rent) {
-            this.dispose();
 
             String resultMsg = delegate.makeRental(dlicnseField.getText(), fromDateField.getText(), fromTimeField.getText(), toDateField.getText(), toTimeField.getText(), vtnameField.getText(),
                     locationField.getText(), cardNameField.getText(), cardNumField.getText(), expDateField.getText());
@@ -217,10 +216,8 @@ public class ClerkRentWithoutReservationWindow extends JFrame implements ActionL
                         toDateField.getText(),
                         toTimeField.getText());
                 PopupBox.infoBox(popupMsg, "Receipt");
-                new ClerkWindow().showFrame(delegate);
             } else {
                 PopupBox.infoBox(resultMsg, "ERROR");
-                new ClerkRentWithoutReservationWindow().showFrame(delegate);
             }
         } else if (e.getSource() == back) {
             this.dispose();

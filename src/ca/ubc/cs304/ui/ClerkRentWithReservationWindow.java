@@ -131,7 +131,6 @@ public class ClerkRentWithReservationWindow extends JFrame implements ActionList
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == rent) {
-            this.dispose();
 
             ReservationModel reservationModel = delegate.makeRentalWithReservation(confNumrField.getText(),
                     locationField.getText(), cardNameField.getText(), cardNumField.getText(), expDateField.getText());
@@ -150,11 +149,9 @@ public class ClerkRentWithReservationWindow extends JFrame implements ActionList
                         reservationModel.getfromDate(),
                         reservationModel.gettoDate());
                 PopupBox.infoBox(msg, "Receipt");
-                new ClerkWindow().showFrame(delegate);
             } else {
                 String errorMsg = reservationModel.getErrorMsg();
                 PopupBox.infoBox(errorMsg, "ERROR");
-                new ClerkRentWithReservationWindow().showFrame(delegate);
             }
         } else if (e.getSource() == back) {
             this.dispose();
