@@ -115,8 +115,8 @@ public class ReturnWindow extends JFrame implements ActionListener {
                 ReturnModel model = delegate.insertReturn(rid, vlicense,odo,tank);
                 PopupBox.infoBox("Return processed!\n" + "Rental Transaction ID: " + rid
                         + "\nRental date: " + model.getDate() + "    Return date: " + date
-                        + "\nWeeks total: " + model.getWrate()
-                        + "\nWeekly rate: " + model.getWeeks() + "    Weekly insurance rate: " + model.getWirate()
+                        + "\nWeeks total: " + model.getWeeks()
+                        + "\nWeekly rate: " + model.getWrate() + "    Weekly insurance rate: " + model.getWirate()
                         + "\nDays total: " + model.getDays()
                         + "\nDaily rate: " + model.getDrate() + "    Daily insurance rate: " + model.getDirate()
                         + "\nHours total: " + model.getHours()

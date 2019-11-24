@@ -73,7 +73,7 @@ public class ClerkWindow extends JFrame implements ActionListener {
             new ClerkRentReservationWindow().showFrame(delegate);
         } else if (e.getSource() == b2) {
             this.dispose();
-            new ReturnWindow().showFrame(delegate); // todo: helen put your code here
+            new ReturnWindow().showFrame(delegate);
         } else if (e.getSource() == b3) {
           this.dispose();
           new ReportWindow().showFrame(delegate);

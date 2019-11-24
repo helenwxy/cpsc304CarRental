@@ -255,7 +255,7 @@ public class DatabaseConnectionHandler {
 			System.out.println("hrate = " + hrate);
 			System.out.println("date = " + date);
 
-
+			// TODO: fix this!
 			PreparedStatement ps2 = connection.prepareStatement("INSERT INTO return " +
 					"SELECT ?, sysdate, ?,?, ?" +
 					"FROM rental r, vehicle v, VEHICLETYPE vt WHERE r.rid = ? AND r.vlicense = v.vlicense AND v.vtname = vt.vtname");
@@ -273,8 +273,10 @@ public class DatabaseConnectionHandler {
 			connection.commit();
 
 			PreparedStatement ps3 = connection.prepareStatement("UPDATE vehicle SET status = 'Available', ODOMETER = ? WHERE vlicense = ?");
-			ps3.setString(1, license);
-			ps3.setInt(2, odometer);
+			System.out.println("vehicle license: " + license);
+			ps3.setInt(1, odometer);
+			ps3.setString(2, license);
+			ps3.executeUpdate();
 			connection.commit();
 
 			ps.close();
@@ -428,12 +430,12 @@ public class DatabaseConnectionHandler {
       try {
         PreparedStatement ps = connection.prepareStatement(
           "SELECT COUNT(r.rid) " +
-            "FROM rental r, vehicle v " +
-            "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? ");
+            "FROM rental r " +
+            "WHERE to_char(r.fromDate, 'YYYY-MM-DD') = ? ");
         ps.setString(1, dateR);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-          ReportModel model = new ReportModel (
+          ReportModel model = new ReportModel ("Total",
             rs.getInt(1));
           result.add(model);
         }
@@ -582,14 +584,14 @@ public class DatabaseConnectionHandler {
     ArrayList<ReportReturnModel> result = new ArrayList<ReportReturnModel>();
     try { // all branches
       PreparedStatement ps = connection.prepareStatement(
-        "SELECT SUM(t.VALUE) " +
-          "FROM rental r, vehicle v, return t " +
-          "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? ");
+        "SELECT COUNT(t.rid), SUM(t.VALUE) " +
+          "FROM return t " +
+          "WHERE to_char(t.rdate, 'YYYY-MM-DD') = ? ");
       ps.setString(1,dateR);
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
-        ReportReturnModel model = new ReportReturnModel (
-          rs.getFloat(1));
+        ReportReturnModel model = new ReportReturnModel ("Grand Total", rs.getInt(1),
+          rs.getFloat(2));
         result.add(model);
       }
     } catch (SQLException e) {
@@ -637,8 +639,9 @@ public class DatabaseConnectionHandler {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT r.dlicense, r.vtname, r.fromDate, r.toDate, r.rDate\n" +
 							"FROM reservation r\n" +
-							"WHERE r.confNo = ?");
+							"WHERE r.confNo = ? AND ? NOT IN (SELECT rt.confno FROM rental rt)");
 			ps.setString(1, confNo);
+			ps.setString(2, confNo);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				dlicense = rs.getString("dlicense");
@@ -705,15 +708,9 @@ public class DatabaseConnectionHandler {
 		try {
 			PreparedStatement ps = connection.prepareStatement(
 					"INSERT INTO rental " +
-                            "SELECT ?, v.vlicense, r.dlicense, r.fromDate, r.toDate, v.odometer, ?, ?, " +
+                            "SELECT ?, ?, r.dlicense, r.fromDate, r.toDate, ?, ?, ?, " +
                             "?, r.confno " +
-                            "FROM reservation r, vehicle v " +
-                            "WHERE ? = r.confno " +
-								"AND v.vlicense = (" +
-									"SELECT v2.VLICENSE " +
-									"FROM vehicle v2 " +
-									"WHERE v2.vtname = r.vtname AND v2.location = ? " +
-										"AND v2.status = 'Available' AND ROWNUM = 1)");
+                            "FROM reservation r WHERE ? = r.confno ");
 			System.out.println("rid: " + rid);
 			System.out.println("cardName: " + cardName);
 			System.out.println("cardNumber: " + cardNumber);
@@ -721,11 +718,13 @@ public class DatabaseConnectionHandler {
 			System.out.println("confNo: " + confNo);
 			System.out.println("location: " + location);
 			ps.setInt(1, rid);
-			ps.setString(2, cardName);
-			ps.setString(3, cardNumber);
-			ps.setDate(4, Date.valueOf(cardExpiryDate + "-01"));
-			ps.setInt(5, Integer.parseInt(confNo));
-			ps.setString(6, location);
+			ps.setString(2, vlicense);
+			ps.setInt(3, odometer);
+			ps.setString(4, cardName);
+			ps.setString(5, cardNumber);
+			ps.setDate(6, Date.valueOf(cardExpiryDate + "-01"));
+			ps.setInt(7, Integer.parseInt(confNo));
+//			ps.setString(6, location);
 			int numRow = ps.executeUpdate();
 			System.out.println("num rows: " + numRow);
 			connection.commit();
@@ -823,12 +822,7 @@ public class DatabaseConnectionHandler {
 		// 2) driver license, from date, to date, card name, card number, expiry date, vehicle type, location -> INSERT RENTAL
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"INSERT INTO rental SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, null " +
-							"FROM vehicle v " +
-							"WHERE ROWNUM = 1 " +
-								"AND v.vtname = ? " +
-								"AND v.location = ? " +
-								"AND v.status = 'Available'");
+					"INSERT INTO rental values (?, ?, ?, ?, ?, ?, ?, ?, ?, null) ");
 //			System.out.println("rid: " + rid);
 //			System.out.println("vlicense: " + vlicense);
 //			System.out.println("dlicense: " + dlicense);
@@ -847,8 +841,8 @@ public class DatabaseConnectionHandler {
 			ps.setString(7, cardName);
 			ps.setString(8, cardNumber);
 			ps.setDate(9, Date.valueOf(cardExpiryDate + "-01"));
-			ps.setString(10, vtname);
-			ps.setString(11, location);
+//			ps.setString(10, vtname);
+//			ps.setString(11, location);
 			int numRow = ps.executeUpdate();
 			System.out.println("num rows: " + numRow);
 			connection.commit();

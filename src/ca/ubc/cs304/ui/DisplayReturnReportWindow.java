@@ -1,6 +1,8 @@
 package ca.ubc.cs304.ui;
 
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
+import ca.ubc.cs304.model.ReportModel;
+import ca.ubc.cs304.model.ReportReturnModel;
 import ca.ubc.cs304.model.VehicleModel;
 
 import javax.swing.*;
@@ -18,9 +20,9 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
   //  private JButton numVehicle;
   private RentalTransactionDelegate delegate;
   private JButton back;
-  private JButton countCategory;
-  private JButton countBranch;
-  private JButton countCompany;
+//  private JButton countCategory;
+//  private JButton countBranch;
+//  private JButton countCompany;
   private JScrollPane sp;
 
   public DisplayReturnReportWindow(String date, String location) {
@@ -29,29 +31,31 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
     this.location = location;
   }
 
-  // todo: copied from DisplayVehicleWindow. adjust.
   public void showFrame(RentalTransactionDelegate delegate) {
     this.delegate = delegate;
     ArrayList<VehicleModel> vlist = delegate.showReturnReport1(date, location);
+    ArrayList<ReportReturnModel> vlist3 = delegate.showReturnReport3(date, location);
+    ArrayList<ReportReturnModel> vlist2 = delegate.showReturnReport2(date, location);
+    ArrayList<ReportReturnModel> vlist4 = delegate.showReturnReport4(date, location);
     back = new JButton("Back");
-    countCategory = new JButton("Count Returns & Revenue/category");
-    countBranch = new JButton("Count Returns & Revenue /branch");
-    countCompany = new JButton("Count Total Returns & Revenue");
+//    countCategory = new JButton("Count Returns & Revenue/category");
+//    countBranch = new JButton("Count Returns & Revenue /branch");
+//    countCompany = new JButton("Count Total Returns & Revenue");
     if (vlist.isEmpty()) {
       this.setLayout(new BorderLayout());
       JPanel topPanel = new JPanel();
       topPanel.add(new JLabel("No rentals for the day."));
       JPanel botPanel = new JPanel();
       botPanel.add(back);
-      botPanel.add(countCategory);
-      botPanel.add(countBranch);
-      botPanel.add(countCompany);
+//      botPanel.add(countCategory);
+//      botPanel.add(countBranch);
+//      botPanel.add(countCompany);
       this.add(topPanel, BorderLayout.NORTH);
       this.add(botPanel, BorderLayout.SOUTH);
       back.addActionListener(this);
-      countCategory.addActionListener(this);
-      countBranch.addActionListener(this);
-      countCompany.addActionListener(this);
+//      countCategory.addActionListener(this);
+//      countBranch.addActionListener(this);
+//      countCompany.addActionListener(this);
       this.pack();
       Dimension d = this.getToolkit().getScreenSize();
       Rectangle r = this.getBounds();
@@ -61,22 +65,23 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
       this.setLayout(new BorderLayout());
 
       JPanel panel1 = new JPanel();
-      GridBagLayout gb = new GridBagLayout();
-      GridBagConstraints cons = new GridBagConstraints();
-      JLabel label = new JLabel("Number of Available Vehicles: (click to expand)");
-
       JPanel panel2 = new JPanel();
-      panel2.add(back);
-      panel2.add(countCategory);
-      panel2.add(countBranch);
-      panel2.add(countCompany);
+      JPanel panel3 = new JPanel();
 
-      String[] colNames = {"Rental Id", "Vehicle License", "Vehicle Type", "Make", "Model", "Year", "Location", "City"};
+      panel3.add(back);
+
+      String[] colNames = {
+              "City", "Location", "Vehicle Type","Rental Id","Vehicle License","Make","Model","Year",
+      };
       String[][] array = new String[vlist.size()][];
       for (int i = 0; i < vlist.size(); i++) {
         VehicleModel v = vlist.get(i);
-        String[] attr = {Integer.toString(v.getRid()), v.getVlicense(),
-          v.getVtname(), v.getMake(), v.getModel(), String.valueOf(v.getYear()), v.getLocation(), v.getCity()};
+        String[] attr = {
+                v.getCity(), v.getLocation(),
+                v.getVtname(),
+                Integer.toString(v.getRid()),  v.getVlicense(), v.getMake(), v.getModel(),
+                String.valueOf(v.getYear())
+        };
         array[i] = attr;
       }
       table1 = new JTable(array, colNames);
@@ -104,16 +109,65 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
 
         tableColumn.setPreferredWidth( preferredWidth );
       }
+
+      String[] colNames2 = {"Vehicle Type", "# of Cars", "Revenue"};
+      String[][] array2 = new String[vlist2.size()+vlist3.size()+vlist4.size()+2][];
+      for (int i = 0; i < vlist2.size(); i++) {
+        ReportReturnModel r = vlist2.get(i);
+        String[] attr = {
+                r.getVtname(),
+                Integer.toString(r.getCounter()),
+                Float.toString(r.getMoney())
+        };
+        array2[i] = attr;
+      }
+      int j = 0;
+      array2[vlist2.size()] = new String[]{"", "", ""};
+
+      for (int i = vlist2.size()+1; i < vlist2.size()+vlist3.size()+1; i++) {
+        ReportReturnModel r = vlist3.get(j);
+        String[] attr = {
+                r.getLocation(),
+                Integer.toString(r.getCounter()),
+                Float.toString(r.getMoney())
+        };
+        j++;
+        array2[i] = attr;
+      }
+      j = 0;
+      array2[vlist2.size()+vlist3.size()+1] = new String[]{"", "", ""};
+      if (!location.equals("")) {
+        ReportReturnModel r = vlist3.get(0);
+        String[] attr = {
+                r.getLocation(),
+                Integer.toString(r.getCounter()),
+                Float.toString(r.getMoney())
+        };
+        array2[vlist2.size()+vlist3.size()+2] = attr;
+      } else {
+          ReportReturnModel r = vlist4.get(0);
+          String[] attr = {
+                  r.getVtname(),
+                  Integer.toString(r.getCounter()),
+                  Float.toString(r.getMoney())
+          };
+          array2[vlist2.size() + vlist3.size() + 2] = attr;
+      }
+
 //            table.setBounds(30, 40, 200, 300);
+      JTable table2 = new JTable(array2, colNames2);
       sp = new JScrollPane(table1);
       panel1.add(sp);
+      JScrollPane sp2 = new JScrollPane(table2);
+      panel2.add(sp2);
 
       this.add(panel1, BorderLayout.NORTH);
-      this.add(panel2, BorderLayout.SOUTH);
+      this.add(panel2, BorderLayout.CENTER);
+      this.add(panel3, BorderLayout.SOUTH);
       back.addActionListener(this);
-      countCategory.addActionListener(this);
-      countBranch.addActionListener(this);
-      countCompany.addActionListener(this);
+//      countCategory.addActionListener(this);
+//      countBranch.addActionListener(this);
+//      countCompany.addActionListener(this);
 
       this.pack();
       Dimension d = this.getToolkit().getScreenSize();
@@ -128,15 +182,16 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
     if (e.getSource() == back) {
       this.dispose();
       new ReportWindow().showFrame(delegate);
-    } else if (e.getSource() == countCategory) {
-      this.dispose();
-      new DisplayReturnReportCountCategoryWindow(this.date,this.location).showFrame(delegate);
-    } else if (e.getSource() == countBranch) {
-      this.dispose();
-      new DisplayReturnReportRevenueBranchWindow(this.date,this.location).showFrame(delegate);
-    } else if (e.getSource() == countCompany) {
-      this.dispose();
-      new DisplayReturnGrandTotalWindow(this.date,this.location).showFrame(delegate);
     }
+//    } else if (e.getSource() == countCategory) {
+//      this.dispose();
+//      new DisplayReturnReportCountCategoryWindow(this.date,this.location).showFrame(delegate);
+//    } else if (e.getSource() == countBranch) {
+//      this.dispose();
+//      new DisplayReturnReportRevenueBranchWindow(this.date,this.location).showFrame(delegate);
+//    } else if (e.getSource() == countCompany) {
+//      this.dispose();
+//      new DisplayReturnGrandTotalWindow(this.date,this.location).showFrame(delegate);
+//    }
   }
 }

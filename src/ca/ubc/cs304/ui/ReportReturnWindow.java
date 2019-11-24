@@ -109,12 +109,13 @@ public class ReportReturnWindow extends JFrame implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == submit) {
-      this.dispose();
       if (!delegate.branchExists(locationField.getText()) &&
       !locationField.getText().equals("") ) {
         PopupBox.infoBox("We don't have a branch there", "No Branch");
+      } else {
+        this.dispose();
+        new DisplayReturnReportWindow(rentaldateField.getText(),locationField.getText()).showFrame(delegate);
       }
-      new DisplayReturnReportWindow(rentaldateField.getText(),locationField.getText()).showFrame(delegate);
     } else if (e.getSource() == back) {
       this.dispose();
       new ReportWindow().showFrame(delegate);

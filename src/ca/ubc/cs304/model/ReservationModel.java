@@ -49,7 +49,7 @@ public class ReservationModel {
         return toDate.substring(0, 16);
     }
 
-    public String getrDate() { return rDate.substring(0, 7); }
+    public String getrDate() { return rDate.substring(0, 10); }
 
     public int getrid() {
         return rid;
