@@ -468,22 +468,21 @@ public class DatabaseConnectionHandler {
 
   public ArrayList<ReportReturnModel> getReturnReportInfo4(String dateR, String locationR) {
     ArrayList<ReportReturnModel> result = new ArrayList<ReportReturnModel>();
-    try {
-      PreparedStatement ps = connection.prepareStatement( // todo: fix the SQL
-        "SELECT COUNT(r.rid) " +
-          "FROM rental r, vehicle v " +
-          "WHERE r.vlicense = v.vlicense AND to_char(r.fromDate, 'YYYY-MM-DD') = ? ");
-      ps.setString(1, dateR);
+    try { // all branches
+      PreparedStatement ps = connection.prepareStatement( // todo: Fix the SQL
+        "SELECT SUM(t.VALUE) " +
+          "FROM rental r, vehicle v, return t " +
+          "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? ");
+      ps.setString(1,dateR);
       ResultSet rs = ps.executeQuery();
       while (rs.next()) {
         ReportReturnModel model = new ReportReturnModel (
-          rs.getInt(1));
-        result.add(model); // todo:
+          rs.getFloat(1));
+        result.add(model);
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
-    return result; // stub
-
+    return result;
   }
 }
