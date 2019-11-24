@@ -53,18 +53,6 @@ public class DisplayReturnReportRevenueBranchWindow extends JFrame implements Ac
       GridBagLayout gb = new GridBagLayout();
       GridBagConstraints cons = new GridBagConstraints();
       JLabel label = new JLabel("Number of Available Vehicles: (click to expand)");
-//      panel1.setLayout(gb);
-//      panel1.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-//
-//      cons.gridwidth = GridBagConstraints.RELATIVE;
-//      cons.insets = new Insets(10, 10, 5, 0);
-//      gb.setConstraints(label, cons);
-//      panel1.add(label);
-
-//      cons.gridwidth = GridBagConstraints.REMAINDER;
-//      cons.insets = new Insets(10, 0, 5, 10);
-//      gb.setConstraints(numVehicle, cons);
-//      panel1.add(numVehicle);
 
       JPanel panel2 = new JPanel();
       panel2.add(back);

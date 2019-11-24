@@ -433,7 +433,9 @@ public class DatabaseConnectionHandler {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
           ReportReturnModel model = new ReportReturnModel (
-            rs.getString(1), rs.getInt(2), rs.getFloat(3));
+            rs.getInt(2),
+            rs.getFloat(3),
+            rs.getString(1));
           result.add(model);
         }
       } catch (SQLException e) {
@@ -441,25 +443,27 @@ public class DatabaseConnectionHandler {
       }
     } else { // specific one branch
       try {
-        PreparedStatement ps = connection.prepareStatement( // todo fix SQL
-          "SELECT v.location, COUNT (r.rid), SUM(t.VALUE) " +
+        PreparedStatement ps = connection.prepareStatement(
+          "SELECT v.location, COUNT(r.rid), SUM(t.VALUE) " +
             "FROM rental r, vehicle v, return t " +
             "WHERE r.vlicense = v.vlicense AND r.rid = t.rid AND to_char(t.rdate, 'YYYY-MM-DD') = ? " +
             "AND v.location = ? " +
-            "GROUP BY v.location");
+            "GROUP BY v.location ");
         ps.setString(1, dateR);
         ps.setString(2, locationR);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
           ReportReturnModel model = new ReportReturnModel (
-            rs.getString(1), rs.getInt(2), rs.getFloat(3));
+            rs.getInt(2),
+            rs.getFloat(3),
+            rs.getString(1) );
           result.add(model);
         }
       } catch (SQLException e) {
         e.printStackTrace();
       }
     }
-    return result; // stub
+    return result;
   }
 
   public ArrayList<ReportReturnModel> getReturnReportInfo4(String dateR, String locationR) {

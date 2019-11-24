@@ -36,7 +36,7 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
     back = new JButton("Back");
     countCategory = new JButton("Count Returns & Revenue/category");
     countBranch = new JButton("Count Returns & Revenue /branch");
-    countCompany = new JButton("Couunt Total Returns & Revenue");
+    countCompany = new JButton("Count Total Returns & Revenue");
     if (vlist.isEmpty()) {
       this.setLayout(new BorderLayout());
       JPanel topPanel = new JPanel();
