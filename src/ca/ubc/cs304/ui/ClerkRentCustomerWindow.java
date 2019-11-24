@@ -7,15 +7,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ClerkWindow extends JFrame implements ActionListener {
+public class ClerkRentCustomerWindow extends JFrame implements ActionListener {
     private RentalTransactionDelegate delegate;
-    JButton b1 = new JButton("Rent a vehicle");
-    JButton b2 = new JButton("Return a vehicle");
-    JButton b3 = new JButton("Show report");
+    JButton new_button = new JButton("New customer");
+    JButton existing_button = new JButton("Existing customer");
     JButton back = new JButton("back");
     JPanel panel = new JPanel();
-    public ClerkWindow() {
-        super("Clerk Main Window");
+    public ClerkRentCustomerWindow() {
+        super("Clerk Rent Customer Window");
     }
 
     public void showFrame(RentalTransactionDelegate delegate) {
@@ -32,30 +31,23 @@ public class ClerkWindow extends JFrame implements ActionListener {
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5, 10, 10, 10);
         c.anchor = GridBagConstraints.CENTER;
-        gb.setConstraints(b1, c);
-        panel.add(b1);
+        gb.setConstraints(new_button, c);
+        panel.add(new_button);
 
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5, 10, 10, 10);
         c.anchor = GridBagConstraints.CENTER;
-        gb.setConstraints(b2, c);
-        panel.add(b2);
+        gb.setConstraints(existing_button, c);
+        panel.add(existing_button);
 
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(5, 10, 10, 10);
         c.anchor = GridBagConstraints.CENTER;
-        gb.setConstraints(b2, c);
-        panel.add(b3);
-
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.insets = new Insets(5, 10, 10, 10);
-        c.anchor = GridBagConstraints.CENTER;
-        gb.setConstraints(back, c);
+        gb.setConstraints(existing_button, c);
         panel.add(back);
 
-        b1.addActionListener(this);
-        b2.addActionListener(this);
-        b3.addActionListener(this);
+        new_button.addActionListener(this);
+        existing_button.addActionListener(this);
         back.addActionListener(this);
 
         this.pack();
@@ -67,18 +59,15 @@ public class ClerkWindow extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == b1) {
+        if (e.getSource() == new_button) {
             this.dispose();
-            new ClerkRentReservationWindow().showFrame(delegate);
-        } else if (e.getSource() == b2) {
+            new ClerkRentRegisterCustomerWindow().showFrame(delegate);
+        } else if (e.getSource() == existing_button) {
             this.dispose();
-            new ClerkRentCustomerWindow().showFrame(delegate);
-        } else if (e.getSource() == b3) {
-            this.dispose();
-            // ken put your code here
+            new ClerkRentWithoutReservationWindow().showFrame(delegate);
         } else if (e.getSource() == back) {
             this.dispose();
-            new MainWindow().showFrame(delegate);
+            new ClerkRentReservationWindow().showFrame(delegate);
         }
     }
 }

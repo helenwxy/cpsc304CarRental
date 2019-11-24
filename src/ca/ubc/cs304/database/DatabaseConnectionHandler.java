@@ -3,6 +3,7 @@ package ca.ubc.cs304.database;
 import java.sql.*;
 import java.util.ArrayList;
 
+import ca.ubc.cs304.model.ReservationModel;
 import ca.ubc.cs304.model.VehicleModel;
 
 /**
@@ -10,6 +11,7 @@ import ca.ubc.cs304.model.VehicleModel;
  */
 public class DatabaseConnectionHandler {
 	private int confno = 17;
+	private int rid;
 	private static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1522:stu";
 	private static final String EXCEPTION_TAG = "[EXCEPTION]";
 	private static final String WARNING_TAG = "[WARNING]";
@@ -273,5 +275,262 @@ public class DatabaseConnectionHandler {
 			rollbackConnection();
 			return false;
 		}
+	}
+
+	public ReservationModel insertRentWithReservation(String confNo, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		// Check if confirmation number exist and return null if not found
+		String vtname = null;
+		String dlicense = null;
+		String fromDate = null;
+		String toDate = null;
+		String rDate = null;
+		String vlicense = null;
+		int odometer = -1;
+		// Location
+
+		// Return reservation of given conformation number
+		// 3) confirmation number -> dlicence, vtName, fromDate, toDate, rDate
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT r.dlicense, r.vtname, r.fromDate, r.toDate, r.rDate\n" +
+							"FROM reservation r\n" +
+							"WHERE r.confNo = ?");
+			ps.setString(1, confNo);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				dlicense = rs.getString("dlicense");
+				vtname = rs.getString("vtname");
+				fromDate = rs.getString("fromDate");
+				toDate = rs.getString("toDate");
+				rDate = rs.getString("rDate");
+				System.out.println(dlicense + " " + vtname + " " + fromDate + " " + toDate + " " + rDate);
+			} else {
+				System.out.println("Customer of given confirmation number is not found :(");
+				ReservationModel ResModel =
+						new ReservationModel("Customer of given confirmation number is not found :(");
+				return ResModel;
+			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			System.out.println("Should not have reached here... (3)");
+		}
+
+		// Return vehicle based on given vehicle type and location
+		// 4) vtname, location -> vlicense, odometer
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT v.vlicense, v.odometer FROM vehicle v " +
+							"WHERE ROWNUM = 1 AND v.vtname = ? AND v.location = ? AND v.status = 'Available'");
+			ps.setString(1, vtname);
+			ps.setString(2, location);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				vlicense = rs.getString("vlicense");
+				odometer = rs.getInt("odometer");
+				System.out.println(vlicense + " " + odometer);
+			} else {
+				System.out.println("Available vehicle of location and type does not exist :(");
+				ReservationModel ResModel =
+						new ReservationModel("Available vehicle of location and type does not exist :(");
+				return ResModel;
+			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			System.out.println("Should not have reached here... (4)");
+		}
+
+		// Return the max number of rid in vehicle
+		// 8) confirmation number -> dlicence, vtName, fromDate, toDate
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT MAX(rt.rid) FROM rental rt");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				this.rid = rs.getInt(1) + 1;
+				System.out.println("Max rid + 1: " + this.rid);
+			} else {
+				// If rental is empty
+				this.rid = 1;
+				System.out.println("Start rid: " + this.rid);
+			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			System.out.println("Should not have reached here... (8)");
+		}
+
+		// Insert rent with reservation and input from user
+		// 2) confirmation number, card name, card number, expiry date -> INSERT RENTAL
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO rental " +
+                            "SELECT ?, v.vlicense, r.dlicense, r.fromDate, r.toDate, v.odometer, ?, ?, " +
+                            "?, r.confno " +
+                            "FROM reservation r, vehicle v " +
+                            "WHERE ? = r.confno " +
+								"AND v.vlicense = (" +
+									"SELECT v2.VLICENSE " +
+									"FROM vehicle v2 " +
+									"WHERE v2.vtname = r.vtname AND v2.location = ? " +
+										"AND v2.status = 'Available' AND ROWNUM = 1)");
+			System.out.println("rid: " + rid);
+			System.out.println("cardName: " + cardName);
+			System.out.println("cardNumber: " + cardNumber);
+			System.out.println("cardExpiryDate: " + cardExpiryDate);
+			System.out.println("confNo: " + confNo);
+			System.out.println("location: " + location);
+			ps.setInt(1, rid);
+			ps.setString(2, cardName);
+			ps.setString(3, cardNumber);
+			ps.setDate(4, Date.valueOf(cardExpiryDate + "-01"));
+			ps.setInt(5, Integer.parseInt(confNo));
+			ps.setString(6, location);
+			int numRow = ps.executeUpdate();
+			System.out.println("num rows: " + numRow);
+			connection.commit();
+			System.out.println("rental is made with num rows:");
+
+			// Update car status to 'Rented'
+            // 6) vlicense -> UPDATE VEHICLE
+            try {
+                PreparedStatement ps2 = connection.prepareStatement(
+                        "UPDATE vehicle SET status = 'Rented' WHERE VLICENSE = ?");
+                System.out.println(vlicense);
+                ps2.setString(1, vlicense);
+				System.out.println("Vehicle is updated in 'Rented'");
+				ps2.executeUpdate();
+				connection.commit();
+            } catch (SQLException e) {
+                rollbackConnection();
+                System.out.println("Should not have reached here... (2)");
+            }
+
+		} catch (Exception e) {
+			ReservationModel ResModel =
+					new ReservationModel("Please insert valid input >:(");
+			return ResModel;
+		}
+
+		ReservationModel ResModel = new ReservationModel(Integer.parseInt(confNo), vtname, dlicense, fromDate, toDate,
+				rDate, rid, location);
+
+		return ResModel;
+	}
+
+	public String insertRent(String dlicense, String fromDate, String fromTime, String toDate, String toTime, String vtname, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		String vlicense = null;
+		int odometer = -1;
+
+		// Check if the customer is in our database
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT * FROM customer c WHERE c.dlicense = ?");
+			ps.setString(1, dlicense);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				System.out.println("Customer exist in our database :)");
+			} else {
+				System.out.println("Customer does not exist in our database :(");
+				return "Not a registered user, please register first";
+			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			System.out.println("Should not have reached here... (3)");
+		}
+
+		// Return vehicle based on given vehicle type and location
+		// 4) vtname, location -> vlicense, odometer
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"SELECT v.vlicense, v.odometer FROM vehicle v " +
+							"WHERE ROWNUM = 1 AND v.vtname = ? AND v.location = ? AND v.status = 'Available'");
+			ps.setString(1, vtname);
+			ps.setString(2, location);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				vlicense = rs.getString("vlicense");
+				odometer = rs.getInt("odometer");
+				System.out.println(vlicense + " " + odometer);
+			} else {
+				System.out.println("Available vehicle of location and type does not exist :(");
+				return "Available vehicle of location and type does not exist :(";
+			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			System.out.println("Should not have reached here... (4)");
+		}
+
+		// Return the max number of rid in vehicle
+		// 8) confirmation number -> dlicence, vtName, fromDate, toDate
+		try {
+			PreparedStatement ps = connection.prepareStatement("SELECT MAX(rt.rid) FROM rental rt");
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				this.rid = rs.getInt(1) + 1;
+				System.out.println("Max rid + 1: " + this.rid);
+			} else {
+				// If rental is empty
+				this.rid = 1;
+				System.out.println("Start rid: " + this.rid);
+			}
+		} catch (SQLException e) {
+			rollbackConnection();
+			System.out.println("Should not have reached here... (8)");
+		}
+
+		// Insert rent without reservation and input from user
+		// 2) driver license, from date, to date, card name, card number, expiry date, vehicle type, location -> INSERT RENTAL
+		try {
+			PreparedStatement ps = connection.prepareStatement(
+					"INSERT INTO rental SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, null " +
+							"FROM vehicle v " +
+							"WHERE ROWNUM = 1 " +
+								"AND v.vtname = ? " +
+								"AND v.location = ? " +
+								"AND v.status = 'Available'");
+//			System.out.println("rid: " + rid);
+//			System.out.println("vlicense: " + vlicense);
+//			System.out.println("dlicense: " + dlicense);
+//			System.out.println("fromDate: " + fromDate);
+//			System.out.println("toDate: " + toDate);
+//			System.out.println("odometer: " + odometer);
+//			System.out.println("cardName: " + cardName);
+//			System.out.println("cardNumber: " + cardNumber);
+//			System.out.println("cardExpiryDate: " + cardExpiryDate);
+			ps.setInt(1, rid);
+			ps.setString(2, vlicense);
+			ps.setString(3, dlicense);
+			ps.setTimestamp(4, java.sql.Timestamp.valueOf(fromDate + " " +  fromTime + ":00"));
+			ps.setTimestamp(5, java.sql.Timestamp.valueOf(toDate + " " +  toTime + ":00"));
+			ps.setInt(6, odometer);
+			ps.setString(7, cardName);
+			ps.setString(8, cardNumber);
+			ps.setDate(9, Date.valueOf(cardExpiryDate + "-01"));
+			ps.setString(10, vtname);
+			ps.setString(11, location);
+			int numRow = ps.executeUpdate();
+			System.out.println("num rows: " + numRow);
+			connection.commit();
+			System.out.println("rental is made with num rows:");
+
+			// Update car status to 'Rented'
+			// 6) vlicense -> UPDATE VEHICLE
+			try {
+				PreparedStatement ps2 = connection.prepareStatement(
+						"UPDATE vehicle SET status = 'Rented' WHERE VLICENSE = ?");
+				System.out.println(vlicense);
+				ps2.setString(1, vlicense);
+				System.out.println("Vehicle is updated in 'Rented'");
+				ps2.executeUpdate();
+				connection.commit();
+			} catch (SQLException e) {
+				rollbackConnection();
+				System.out.println("Should not have reached here... (2)");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Please insert valid input >:(";
+		}
+		String s = Integer.toString(rid);
+		return "Successful: " + s;
 	}
 }

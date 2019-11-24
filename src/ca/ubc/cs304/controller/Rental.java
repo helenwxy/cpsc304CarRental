@@ -2,16 +2,13 @@ package ca.ubc.cs304.controller;
 
 import ca.ubc.cs304.database.DatabaseConnectionHandler;
 import ca.ubc.cs304.delegates.LoginWindowDelegate;
-import ca.ubc.cs304.delegates.TerminalTransactionsDelegate;
 import ca.ubc.cs304.delegates.RentalTransactionDelegate;
-import ca.ubc.cs304.model.BranchModel;
+import ca.ubc.cs304.model.ReservationModel;
 import ca.ubc.cs304.model.VehicleModel;
 import ca.ubc.cs304.ui.LoginWindow;
 import ca.ubc.cs304.ui.MainWindow;
 
-import javax.swing.*;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +33,7 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
      * connects to Oracle database with supplied username and password
      */ 
 	public void login(String username, String password) {
-		boolean didConnect = dbHandler.login(username, password);
+		boolean didConnect = dbHandler.login("ora_mohjeehw", "a48383715");
 
 		if (didConnect) {
 			// Once connected, remove login window and start text transaction flow
@@ -148,6 +145,16 @@ public class Rental implements LoginWindowDelegate, RentalTransactionDelegate {
 	@Override
 	public boolean insertNewCustomer(String dlicense, String name, String address, String phone) {
 		return dbHandler.insertNewCustomer(dlicense, name, address, phone);
+	}
+
+	@Override
+	public ReservationModel makeRentalWithReservation(String confNo, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		return dbHandler.insertRentWithReservation(confNo, location, cardName, cardNumber, cardExpiryDate);
+	}
+
+	@Override
+	public String makeRental(String dlicense, String fromDate, String fromTime, String toDate, String toTime, String vtname, String location, String cardName, String cardNumber, String cardExpiryDate) {
+		return dbHandler.insertRent(dlicense, fromDate, fromTime, toDate, toTime, vtname, location, cardName, cardNumber, cardExpiryDate);
 	}
 
 }
