@@ -74,49 +74,49 @@ insert into vehicle values (44, '000WWW', 'Toyota', 'Corolla', 2009, 300, 'Avail
 
 
 insert into reservation values (1, 'Economy', 'GA123456',
-                                TO_DATE('01-JAN-2001 08:20:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('01-JAN-2001 08:20:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('01-JAN-2001 08:20:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('01-JAN-2001 08:20:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (2, 'Compact', 'GC222222',
-                                TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (3, 'Compact', 'BA112345',
-                                TO_DATE('03-APR-2003 00:00:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('31-DEC-2003 23:59:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('03-APR-2003 00:00:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('03-APR-2003 00:00:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('31-DEC-2003 23:59:00', 'DD-MM-YYYY HH24:MI:SS'),
+ TO_DATE('03-APR-2003 00:00:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (4, 'Mid-size', 'AC123145',
-                                TO_DATE('14-AUG-2014 15:00:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('17-AUG-2014 19:30:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('14-AUG-2014 15:00:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('14-AUG-2014 15:00:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('17-AUG-2014 19:30:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('14-AUG-2014 15:00:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (5, 'Standard', 'FF111111',
-                                TO_DATE('25-MAY-2005 05:00:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('29-JUL-2005 13:00:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('25-MAY-2005 05:00:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('25-MAY-2005 05:00:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('29-JUL-2005 13:00:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('25-MAY-2005 05:00:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (6, 'Full-size', 'GG222222',
-                                TO_DATE('16-NOV-2003 06:06:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('06-JAN-2004 18:16:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('16-NOV-2003 06:06:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('16-NOV-2003 06:06:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('06-JAN-2004 18:16:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('16-NOV-2003 06:06:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (7, 'SUV', 'HH333333',
-                                TO_DATE('04-FEB-2004 04:52:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('15-JUN-2003 12:23:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('04-FEB-2004 04:52:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('04-FEB-2004 04:52:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('15-JUN-2003 12:23:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('04-FEB-2004 04:52:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (8, 'Standard', 'II444444',
-                                TO_DATE('08-AUG-2008 08:48:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('09-SEP-2009 21:39:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('08-AUG-2008 08:48:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('08-AUG-2008 08:48:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('09-SEP-2009 21:39:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('08-AUG-2008 08:48:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (9, 'Full-size', 'JJ555555',
-                                TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (10, 'Economy', 'GA123456',
-                                TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS') );
 insert into reservation values (11, 'Economy', 'GC222222',
-                                TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                                TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS') );
+TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS') );
 INSERT INTO reservation (CONFNO, VTNAME, DLICENSE, FROMDATE, TODATE, RDATE) VALUES (12, 'Economy', 'GA123456', TO_DATE('2001-04-02 10:10:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-04-02 11:40:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-04-02 10:10:00', 'YYYY-MM-DD HH24:MI:SS'));
 INSERT INTO reservation (CONFNO, VTNAME, DLICENSE, FROMDATE, TODATE, RDATE) VALUES (13, 'Compact', 'GC222222', TO_DATE('2003-04-03 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2003-12-31 23:59:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2003-04-03 00:00:00', 'YYYY-MM-DD HH24:MI:SS'));
 INSERT INTO reservation (CONFNO, VTNAME, DLICENSE, FROMDATE, TODATE, RDATE) VALUES (14, 'Compact', 'BA112345', TO_DATE('2014-08-14 15:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2014-08-17 19:30:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2014-08-14 15:00:00', 'YYYY-MM-DD HH24:MI:SS'));
@@ -129,55 +129,55 @@ INSERT INTO reservation (CONFNO, VTNAME, DLICENSE, FROMDATE, TODATE, RDATE) VALU
 
 
 insert into rental values(1, '111AAA' , 'GA123456',
-                          TO_DATE('01-JAN-2001 08:20:00','DD-MM-YYYY HH24:MI:SS'), TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
-                          11115,
-                          'Mastercard', 5000123412341234, TO_DATE('01-2020', 'MM-YYYY'),
-                          1);
+                   TO_DATE('01-JAN-2001 08:20:00','DD-MM-YYYY HH24:MI:SS'), TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
+                   11115,
+                   'Mastercard', 5000123412341234, TO_DATE('01-2020', 'MM-YYYY'),
+                   1);
 insert into rental values(2, '222BBB' , 'GC222222',
-                          TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                          22225,
-                          'Mastercard', 5000234523452345, TO_DATE('02-2020', 'MM-YYYY'),
-                          2);
+                   TO_DATE('02-APR-2001 10:10:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   22225,
+                   'Mastercard', 5000234523452345, TO_DATE('02-2020', 'MM-YYYY'),
+                   2);
 insert into rental values(3, '333CCC', 'BA112345',
-                          TO_DATE('03-APR-2003 00:00:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('31-DEC-2003 23:59:00', 'DD-MM-YYYY HH24:MI:SS'),
-                          33335,
-                          'Mastercard', 5000345634563456, TO_DATE('03-2020', 'MM-YYYY'),
-                          3);
+                   TO_DATE('03-APR-2003 00:00:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('31-DEC-2003 23:59:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   33335,
+                   'Mastercard', 5000345634563456, TO_DATE('03-2020', 'MM-YYYY'),
+                   3);
 insert into rental values(4, '444DDD', 'AC123145',
-                          TO_DATE('14-AUG-2014 15:00:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('17-AUG-2014 19:30:00', 'DD-MM-YYYY HH24:MI:SS'),
-                          44445,
-                          'Mastercard', 5000456745674567, TO_DATE('04-2020', 'MM-YYYY'),
-                          4);
+                   TO_DATE('14-AUG-2014 15:00:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('17-AUG-2014 19:30:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   44445,
+                   'Mastercard', 5000456745674567, TO_DATE('04-2020', 'MM-YYYY'),
+                   4);
 insert into rental values (5, '555EEE', 'FF111111',
-                           TO_DATE('25-MAY-2005 05:00:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('29-JUL-2005 13:00:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           55599,
-                           'Visa', 4111432143214321, TO_DATE('05-2020', 'MM-YYYY'),
-                           5);
+                   TO_DATE('25-MAY-2005 05:00:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('29-JUL-2005 13:00:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   55599,
+                   'Visa', 4111432143214321, TO_DATE('05-2020', 'MM-YYYY'),
+                   5);
 insert into rental values (6, '666FFF', 'GG222222',
-                           TO_DATE('16-NOV-2003 06:06:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('06-JAN-2004 18:16:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           66699,
-                           'Visa', 4111543254325432, TO_DATE('06-2020', 'MM-YYYY'),
-                           6);
+                   TO_DATE('16-NOV-2003 06:06:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('06-JAN-2004 18:16:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   66699,
+                   'Visa', 4111543254325432, TO_DATE('06-2020', 'MM-YYYY'),
+                   6);
 insert into rental values (7, '777GGG', 'HH333333',
-                           TO_DATE('04-FEB-2004 04:52:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('15-JUN-2003 12:23:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           77799,
-                           'Visa', 4111654365436543, TO_DATE('07-2020', 'MM-YYYY'),
-                           7);
+                   TO_DATE('04-FEB-2004 04:52:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('15-JUN-2003 12:23:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   77799,
+                   'Visa', 4111654365436543, TO_DATE('07-2020', 'MM-YYYY'),
+                   7);
 insert into rental values (8, '888HHH', 'II444444',
-                           TO_DATE('08-AUG-2008 08:48:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('09-SEP-2009 21:39:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           88899,
-                           'Visa', 3222123443211234, TO_DATE('08-2020', 'MM-YYYY'),
-                           8);
+                   TO_DATE('08-AUG-2008 08:48:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('09-SEP-2009 21:39:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   88899,
+                   'Visa', 3222123443211234, TO_DATE('08-2020', 'MM-YYYY'),
+                   8);
 insert into rental values (9, '999III', 'JJ555555',
-                           TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           111111,
-                           'Visa', 3222234554322345, TO_DATE('09-2020', 'MM-YYYY'),
-                           9);
+                   TO_DATE('09-SEP-2009 21:40:00', 'DD-MM-YYYY HH24:MI:SS'), TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   111111,
+                   'Visa', 3222234554322345, TO_DATE('09-2020', 'MM-YYYY'),
+                   9);
 insert into rental values(10, '000KKK', 'BA112345',
-                          TO_DATE('01-JAN-2001 08:20:00','DD-MM-YYYY HH24:MI:SS'), TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
-                          11115,
-                          'Mastercard', 5000345634563456, TO_DATE('03-2020', 'MM-YYYY'),
-                          10);
+                   TO_DATE('01-JAN-2001 08:20:00','DD-MM-YYYY HH24:MI:SS'), TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
+                   11115,
+                   'Mastercard', 5000345634563456, TO_DATE('03-2020', 'MM-YYYY'),
+                   10);
 
 INSERT INTO rental VALUES (11, '222BBB', 'AC123145', TO_DATE('2014-08-14 15:00:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2014-08-17 19:30:00', 'YYYY-MM-DD HH24:MI:SS'), 22222, 'Visa', 1234321, TO_DATE('2010-10-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), 4);
 INSERT INTO rental VALUES (12, '888HHH', 'GA123456', TO_DATE('2010-10-10 10:10:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2010-10-10 10:11:00', 'YYYY-MM-DD HH24:MI:SS'), 88888, 'Visa', 123213213, TO_DATE('2011-11-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
@@ -190,36 +190,43 @@ INSERT INTO rental VALUES (18, '777GGG', 'HH333333', TO_DATE('2001-01-01 08:20:0
 INSERT INTO rental VALUES (19, '888HHH', 'II444444', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 88899, 'Visa', 3222123443211234, TO_DATE('2020-08-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
 INSERT INTO rental VALUES (20, '999III', 'JJ555555', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', 3222234554322345, TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
 
+INSERT INTO rental VALUES (21, '111BBB', 'KK666666', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', '15247', TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
+INSERT INTO rental VALUES (22, '222CCC', 'LL777777', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', '86543076', TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
+INSERT INTO rental VALUES (23, '333DDD', 'MM888888', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', '13456789', TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
+INSERT INTO rental VALUES (24, '444EEE', 'OO999999', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', '65329', TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
+INSERT INTO rental VALUES (25, '555FFF', 'UU000000', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', '583020', TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
+INSERT INTO rental VALUES (26, '666GGG', 'VV123123', TO_DATE('2001-01-01 08:20:00', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 111111, 'Visa', '64327', TO_DATE('2020-09-01 00:00:00', 'YYYY-MM-DD HH24:MI:SS'), null);
+
 insert into return values (1,
-                           TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
-                           99999, 1, 41);
+                   TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
+                   99999, 1, 41);
 insert into return values (2,
-                           TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           99999, 0, 42);
+                   TO_DATE('02-APR-2001 11:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   99999, 0, 42);
 insert into return values (3,
-                           TO_DATE('31-DEC-2003 23:59:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           99999, 0, 43);
+                   TO_DATE('31-DEC-2003 23:59:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   99999, 0, 43);
 insert into return values (4,
-                           TO_DATE('17-AUG-2014 19:30:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           99999, 0, 44);
+                   TO_DATE('17-AUG-2014 19:30:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   99999, 0, 44);
 insert into return values (5,
-                           TO_DATE('29-JUL-2005 13:00:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           99999, 0, 45);
+                   TO_DATE('29-JUL-2005 13:00:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   99999, 0, 45);
 insert into return values (6,
-                           TO_DATE('06-JAN-2004 18:16:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           77777, 0, 46);
+                   TO_DATE('06-JAN-2004 18:16:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   77777, 0, 46);
 insert into return values (7,
-                           TO_DATE('15-JUN-2003 12:23:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           99999, 0, 47);
+                   TO_DATE('15-JUN-2003 12:23:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   99999, 0, 47);
 insert into return values (8,
-                           TO_DATE('09-SEP-2009 21:39:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           99999, 0, 48);
+                   TO_DATE('09-SEP-2009 21:39:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   99999, 0, 48);
 insert into return values (9,
-                           TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
-                           1000000, 0, 49);
+                   TO_DATE('09-SEP-2009 22:40:00', 'DD-MM-YYYY HH24:MI:SS'),
+                   1000000, 0, 49);
 insert into return values (10,
-                           TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
-                           14444, 0, 50);
+                   TO_DATE('01-MAR-2001 16:40:00','DD-MM-YYYY HH24:MI:SS'),
+                   14444, 0, 50);
 INSERT INTO return VALUES (11, TO_DATE('2014-08-17 19:30:00', 'YYYY-MM-DD HH24:MI:SS'), 99999, 0, 51);
 INSERT INTO return VALUES (12, TO_DATE('2010-10-10 10:11:00', 'YYYY-MM-DD HH24:MI:SS'), 99999, 0, 52);
 INSERT INTO return VALUES (13, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 99999, 0, 53);
@@ -230,3 +237,12 @@ INSERT INTO return VALUES (17, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:M
 INSERT INTO return VALUES (18, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 99999, 0, 58);
 INSERT INTO return VALUES (19, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 99999, 0, 59);
 INSERT INTO return VALUES (20, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 222222, 0, 60);
+
+INSERT INTO return VALUES (21, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 333333, 0, 100);
+INSERT INTO return VALUES (22, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 333333, 0, 123);
+INSERT INTO return VALUES (23, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 333333, 0, 1235);
+INSERT INTO return VALUES (24, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 333333, 0, 1267);
+INSERT INTO return VALUES (25, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 333333, 0, 645);
+INSERT INTO return VALUES (26, TO_DATE('2001-03-01 16:40:00', 'YYYY-MM-DD HH24:MI:SS'), 333333, 0, 9876);
+
+
