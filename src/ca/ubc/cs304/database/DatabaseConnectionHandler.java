@@ -638,7 +638,7 @@ public class DatabaseConnectionHandler {
 			PreparedStatement ps = connection.prepareStatement(
 					"SELECT r.dlicense, r.vtname, r.fromDate, r.toDate, r.rDate " +
 							"FROM reservation r " +
-							"WHERE r.confNo = ? AND NOT EXISTS (SELECT rt.confno FROM rental rt)");
+							"WHERE r.confNo = ? AND r.confno not in (select rt.confno FROM rental rt WHERE rt.confno IS NOT NULL)");
 			ps.setString(1, confNo);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {

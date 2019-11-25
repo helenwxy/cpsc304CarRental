@@ -3,7 +3,7 @@ create table customer
     dlicense varchar(20) not null PRIMARY KEY,
     name     varchar(20) not null,
     address  varchar(40) not null,
-    phone    varchar(20) not null
+    phone    varchar(20) not null unique
 );
 
 create table vehicleType
@@ -58,7 +58,7 @@ create table rental
     cardName varchar(20) not null,
     cardNo   varchar(20) not null,
     expDate  date        not null,
-    confNo   integer,
+    confNo   integer unique,
     foreign key (vlicense) references vehicle ON DELETE CASCADE,
     foreign key (dlicense) references customer ON DELETE CASCADE,
     foreign key (confNo) references reservation ON DELETE CASCADE,
