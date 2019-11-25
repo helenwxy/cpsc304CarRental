@@ -110,7 +110,7 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
         tableColumn.setPreferredWidth( preferredWidth );
       }
 
-      String[] colNames2 = {"Vehicle Type", "# of Cars", "Revenue"};
+      String[] colNames2 = {"Vehicle Type/Branch", "# of Cars", "Revenue"};
       String[][] array2 = new String[vlist2.size()+vlist3.size()+vlist4.size()+2][];
       for (int i = 0; i < vlist2.size(); i++) {
         ReportReturnModel r = vlist2.get(i);
@@ -139,7 +139,7 @@ public class DisplayReturnReportWindow extends JFrame implements ActionListener 
       if (!location.equals("")) {
         ReportReturnModel r = vlist3.get(0);
         String[] attr = {
-                r.getLocation(),
+                "Total",
                 Integer.toString(r.getCounter()),
                 Float.toString(r.getMoney())
         };

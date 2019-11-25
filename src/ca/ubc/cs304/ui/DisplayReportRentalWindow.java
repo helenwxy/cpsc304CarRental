@@ -144,7 +144,7 @@ public class DisplayReportRentalWindow extends JFrame implements ActionListener 
       if (!location.equals("")) {
         ReportModel r = vlist3.get(0);
         String[] attr = {
-                r.getLocation(),
+               "Total",
                 Integer.toString(r.getCounter())
         };
         array2[vlist2.size() + vlist3.size() + 2] = attr;

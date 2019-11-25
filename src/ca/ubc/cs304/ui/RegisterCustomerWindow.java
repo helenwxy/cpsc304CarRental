@@ -115,15 +115,15 @@ public class RegisterCustomerWindow extends JFrame implements ActionListener {
             new ReserveVehicleWindow().showFrame(delegate);
         } else if (e.getSource() == submit) {
 
-            this.dispose();
             if (dlicense.getText().equals("") || name.getText().equals("") || address.getText().equals("")) {
                 PopupBox.infoBox("Please ensure all information is entered!", "Information");
             } else if (!delegate.insertNewCustomer(dlicense.getText(), name.getText(), address.getText(), phone.getText())) {
                 PopupBox.infoBox("Your account already exists", "Information");
             } else {
                 PopupBox.infoBox("Registration successful", "Information");
+                this.dispose();
+                new ReserveVehicleWindow().showFrame(delegate);
             }
-            new ReserveVehicleWindow().showFrame(delegate);
         }
     }
 }
