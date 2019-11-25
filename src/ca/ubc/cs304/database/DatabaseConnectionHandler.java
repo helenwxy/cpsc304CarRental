@@ -9,11 +9,10 @@ import ca.ubc.cs304.model.*;
  * This class handles all database related transactions
  */
 public class DatabaseConnectionHandler {
-	private int confno = 17;
+	private int confno = 50;
 	private int rid;
 	private static final String ORACLE_URL = "jdbc:oracle:thin:@localhost:1522:stu";
 	private static final String EXCEPTION_TAG = "[EXCEPTION]";
-	private static final String WARNING_TAG = "[WARNING]";
 
 	private Connection connection = null;
 
@@ -70,7 +69,7 @@ public class DatabaseConnectionHandler {
 			if (vtname.equals("") && location.equals("")) {
 				ps = connection.prepareStatement(
 						"SELECT vtname, make, model, year, location, city FROM vehicle " +
-								"WHERE location = 'Richmond' ORDER BY vtname, make");
+								"WHERE location = 'Vancouver' ORDER BY vtname, make");
 				rs = ps.executeQuery();
 			} else if (vtname.equals("")) {
 				ps = connection.prepareStatement(
@@ -637,11 +636,10 @@ public class DatabaseConnectionHandler {
 		// 3) confirmation number -> dlicence, vtName, fromDate, toDate, rDate
 		try {
 			PreparedStatement ps = connection.prepareStatement(
-					"SELECT r.dlicense, r.vtname, r.fromDate, r.toDate, r.rDate\n" +
-							"FROM reservation r\n" +
-							"WHERE r.confNo = ? AND ? NOT IN (SELECT rt.confno FROM rental rt)");
+					"SELECT r.dlicense, r.vtname, r.fromDate, r.toDate, r.rDate " +
+							"FROM reservation r " +
+							"WHERE r.confNo = ? AND NOT EXISTS (SELECT rt.confno FROM rental rt)");
 			ps.setString(1, confNo);
-			ps.setString(2, confNo);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				dlicense = rs.getString("dlicense");
