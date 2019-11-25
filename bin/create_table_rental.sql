@@ -31,11 +31,7 @@ create table vehicle
     vtname               not null,
     location varchar(40) not null,
     city     varchar(20) not null,
-
-    CONSTRAINT fk_vehicleType
-        FOREIGN KEY (vtname)
-        REFERENCES vehicleType(vtname)
-        ON DELETE CASCADE,
+    foreign key (vtname) references vehicleType ON DELETE CASCADE,
     CHECK (status IN ('Available', 'Rented', 'Maintenance'))
 );
 
@@ -47,15 +43,8 @@ create table reservation
     fromDate date        not null,
     toDate   date        not null,
     rDate    date        not null,
-
-    CONSTRAINT fk_vehicleType
-        FOREIGN KEY (vtname)
-        REFERENCES vehicleType(vtname)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_customer
-        FOREIGN KEY (dlicense)
-        REFERENCES customer(dlicense)
-        ON DELETE CASCADE
+    foreign key (vtname) references vehicleType ON DELETE CASCADE,
+    foreign key (dlicense) references customer ON DELETE CASCADE
 );
 
 create table rental
@@ -70,20 +59,9 @@ create table rental
     cardNo   varchar(20) not null,
     expDate  date        not null,
     confNo   integer,
-
-    CONSTRAINT fk_vehicle
-        FOREIGN KEY (vlicense)
-        REFERENCES vehicle(vlicense)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_customer
-        FOREIGN KEY (dlicense)
-        REFERENCES customer(dlicense)
-        ON DELETE CASCADE,
-    CONSTRAINT fk_reservation
-        FOREIGN KEY (confNo)
-        REFERENCES reservation(confNo)
-        ON DELETE CASCADE,
-
+    foreign key (vlicense) references vehicle ON DELETE CASCADE,
+    foreign key (dlicense) references customer ON DELETE CASCADE,
+    foreign key (confNo) references reservation ON DELETE CASCADE,
     CHECK (cardName IN ('Mastercard', 'Visa'))
 );
 
@@ -94,9 +72,5 @@ create table return
     odometer integer not null,
     fulltank number  not null,
     value    float   not null,
-
-    CONSTRAINT fk_rental
-        FOREIGN KEY (rid)
-        REFERENCES rental(rid)
-        ON DELETE CASCADE
+    foreign key (rid) references rental ON DELETE CASCADE
 );
