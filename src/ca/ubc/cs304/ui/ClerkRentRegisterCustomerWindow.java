@@ -112,15 +112,18 @@ public class ClerkRentRegisterCustomerWindow extends JFrame implements ActionLis
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == back) {
             this.dispose();
-            new ClerkRentCustomerWindow().showFrame(delegate);
+            new ReserveVehicleWindow().showFrame(delegate);
         } else if (e.getSource() == submit) {
+
             this.dispose();
-            if (!delegate.insertNewCustomer(dlicense.getText(), name.getText(), address.getText(), phone.getText())) {
+            if (dlicense.getText().equals("") || name.getText().equals("") || address.getText().equals("")) {
+                PopupBox.infoBox("Please ensure all information is entered!", "Information");
+            } else if (!delegate.insertNewCustomer(dlicense.getText(), name.getText(), address.getText(), phone.getText())) {
                 PopupBox.infoBox("Your account already exists", "Information");
             } else {
                 PopupBox.infoBox("Registration successful", "Information");
             }
-            new ClerkRentWithoutReservationWindow().showFrame(delegate);
+            new ReserveVehicleWindow().showFrame(delegate);
         }
     }
 }
